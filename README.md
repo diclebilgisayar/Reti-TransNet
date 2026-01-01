@@ -24,11 +24,29 @@ Diabetic Retinopathy (DR) requires precise detection of both minute local lesion
 - ⚡ **Efficiency**: Trained in just 25 epochs on a single NVIDIA T4 GPU.
 
 - 🏗️ **Architecture**: The proposed architecture consists of two parallel branches (CNN & Transformer) fused by a novel Adaptive Gating Mechanism.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Thanks to Meta AI Research for the Reti-TransNet
+- APTOS-2019 dataset creators and maintainers
+- IDRiD dataset creators and maintainers
+- All contributors and supporters
+
+## Contact
+
+For questions and feedback:
+- 📧 Email: [isaatas21@gmail.com](mailto:isaatas21@gmail.com)
+- 🌟 Issues: [GitHub Issues](https://github.com/diclebilgisayar/Reti-TransNet/issues)
   
 ---
 <p align="center">
   Made with ❤️ for the Medical Imaging Community
 </p>
+
 
 
 
