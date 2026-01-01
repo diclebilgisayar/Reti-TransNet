@@ -27,7 +27,7 @@ Diabetic Retinopathy (DR) requires precise detection of both minute local lesion
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
@@ -46,6 +46,7 @@ For questions and feedback:
 <p align="center">
   Made with ❤️ for the Medical Imaging Community
 </p>
+
 
 
 
