@@ -21,4 +21,8 @@ Key Achievements:
 
 ⚡ Efficiency: Trained in just 25 epochs on a single NVIDIA T4 GPU.
 
+🏗️ Architecture
+
+The proposed architecture consists of two parallel branches (CNN & Transformer) fused by a novel Adaptive Gating Mechanism.
+![alt text](images/Figure1_Architecture.png)
 
