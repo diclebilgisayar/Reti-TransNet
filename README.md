@@ -13,18 +13,28 @@ Diabetic Retinopathy (DR) requires precise detection of both minute local lesion
 
 Key Achievements:
 
-# 🏆 State-of-the-Art Reliability: Achieved a Quadratic Weighted Kappa of 0.90 on the APTOS 2019 dataset.
+# 🏆 State-of-the-Art Reliability: 
 
-# 🌍 Robust Generalization: Demonstrated strong zero-shot performance on the external IDRiD dataset (AUC 0.949 for screening healthy patients).
+  Achieved a Quadratic Weighted Kappa of 0.90 on the APTOS 2019 dataset.
 
-# 🔍 Explainability: Integrated Grad-CAM++ ensures clinical transparency by localizing pathological biomarkers.
+# 🌍 Robust Generalization: 
 
-# ⚡ Efficiency: Trained in just 25 epochs on a single NVIDIA T4 GPU.
+  Demonstrated strong zero-shot performance on the external IDRiD dataset (AUC 0.949 for screening healthy patients).
+
+# 🔍 Explainability: 
+
+  Integrated Grad-CAM++ ensures clinical transparency by localizing pathological biomarkers.
+
+# ⚡ Efficiency: 
+
+  Trained in just 25 epochs on a single NVIDIA T4 GPU.
 
 # 🏗️ Architecture
 
-The proposed architecture consists of two parallel branches (CNN & Transformer) fused by a novel Adaptive Gating Mechanism.
+  The proposed architecture consists of two parallel branches (CNN & Transformer) fused by a novel Adaptive Gating Mechanism.
+  
 ![alt text](project.png)
+
 
 
 
