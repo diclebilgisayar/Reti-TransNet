@@ -36,6 +36,10 @@ Key Achievements:
   The proposed architecture consists of two parallel branches (CNN & Transformer) fused by a novel Adaptive Gating Mechanism.
   
 
+---
+<p align="center">
+  Made with ❤️ for the Medical Imaging Community
+</p>
 
 
 
