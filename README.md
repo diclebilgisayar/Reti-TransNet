@@ -39,13 +39,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact
 
 For questions and feedback:
-- 📧 Email: [isaatas21@gmail.com](mailto:isaatas21@gmail.com)
+- 📧 Email:
 - 🌟 Issues: [GitHub Issues](https://github.com/diclebilgisayar/Reti-TransNet/issues)
   
 ---
 <p align="center">
   Made with ❤️ for the Medical Imaging Community
 </p>
+
 
 
 
