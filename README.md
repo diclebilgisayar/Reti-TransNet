@@ -1,7 +1,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 <p align="center">
-    <img src="proje.png" alt="Proje Banner" width="100%">
+    <img src="proje_yok.png" alt="Proje Banner" width="100%">
 </p>
 
 <p align="center">
@@ -14,5 +14,6 @@
     NotebookLM bağlantısı
   </a>
 </p>
+
 
 
