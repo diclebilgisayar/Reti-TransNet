@@ -24,5 +24,6 @@ Key Achievements:
 🏗️ Architecture
 
 The proposed architecture consists of two parallel branches (CNN & Transformer) fused by a novel Adaptive Gating Mechanism.
-![alt text](images/Figure1_Architecture.png)
+![alt text](project.png)
+
 
