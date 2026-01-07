@@ -27,10 +27,6 @@ Diabetic Retinopathy (DR) requires precise detection of both minute local lesion
 
 - 🏗️ **Architecture**: The proposed architecture consists of two parallel branches (CNN & Transformer) fused by a novel Adaptive Gating Mechanism.
 
-# Reti-TransNet: Adaptive Gated Hybrid Framework for DR Grading
-
-Official implementation of the paper **"Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework with Explainability for Severity Grading of Diabetic Retinopathy"**.
-
 ## 📊 Experimental Results
 
 Our model outperforms recent state-of-the-art methods in terms of reliability (Kappa) and screening safety, validated on both internal and external datasets.
