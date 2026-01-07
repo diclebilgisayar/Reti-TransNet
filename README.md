@@ -44,7 +44,7 @@ Our model outperforms recent state-of-the-art methods in terms of reliability (K
 | **AUC (No DR)** | **0.997** |
 
 <p align="center">
-  <img src="images/Figure_4.png" width="45%" alt="Confusion Matrix"/>
+  <img src="images/figure_4.png" width="45%" alt="Confusion Matrix"/>
   <img src="images/Figure_5.png" width="45%" alt="APTOS ROC"/>
 </p>
 
