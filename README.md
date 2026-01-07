@@ -47,8 +47,8 @@ Our model outperforms recent state-of-the-art methods in terms of reliability (K
 | **No DR Recall** | **97.5%** |
 | **AUC (No DR)** | **0.997** |
 
-<p align="left">
-  <img src="images/Figure_5.png" width="45%" alt="APTOS ROC"/>
+<p align="center">
+  <img src="images/Figure_5.png" width="60%" alt="APTOS ROC"/>
 </p>
 
 ### 2. External Validation (IDRiD - Zero-Shot)
@@ -59,8 +59,8 @@ Despite domain shift, the model maintains high screening reliability.
 | **AUC (No DR)** | **0.958** |
 | **Kappa ($\kappa$)** | **0.76** |
 
-<p align="left">
-  <img src="images/Figure_6.png" width="45%" alt="IDRiD ROC"/>
+<p align="center">
+  <img src="images/Figure_6.png" width="60%" alt="IDRiD ROC"/>
 </p>
 
 ## 🚀 How to Run
