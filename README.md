@@ -43,8 +43,11 @@ Our model outperforms recent state-of-the-art methods in terms of reliability (K
 | **No DR Recall** | **97.5%** |
 | **AUC (No DR)** | **0.997** |
 
-<p align="center">
+<p align="left">
   <img src="images/figure_4.png" width="45%" alt="Confusion Matrix"/>
+</p>
+
+<p align="left">
   <img src="images/Figure_5.png" width="45%" alt="APTOS ROC"/>
 </p>
 
@@ -56,7 +59,7 @@ Despite domain shift, the model maintains high screening reliability.
 | **AUC (No DR)** | **0.958** |
 | **Kappa ($\kappa$)** | **0.76** |
 
-<p align="center">
+<p align="left">
   <img src="images/Figure_6.png" width="45%" alt="IDRiD ROC"/>
 </p>
 
