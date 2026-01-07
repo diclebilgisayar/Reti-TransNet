@@ -57,7 +57,7 @@ Despite domain shift, the model maintains high screening reliability.
 | **Kappa ($\kappa$)** | **0.76** |
 
 <p align="center">
-  <img src="images/Figure_6.png" width="60%" alt="IDRiD ROC"/>
+  <img src="images/Figure_6.png" width="45%" alt="IDRiD ROC"/>
 </p>
 
 ## 🚀 How to Run
