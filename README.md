@@ -36,7 +36,7 @@ Official implementation of the paper **"Reti-TransNet: An Adaptive Gated Hybrid 
 Our model outperforms recent state-of-the-art methods in terms of reliability (Kappa) and screening safety, validated on both internal and external datasets.
 
 <p align="center">
-  <img src="images/figure_4.png" width="45%" alt="Confusion Matrix"/>
+  <img src="images/figure_4.png" width="60%" alt="Confusion Matrix"/>
 </p>
 
 ### 1. Internal Validation (APTOS 2019)
