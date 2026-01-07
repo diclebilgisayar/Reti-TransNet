@@ -31,11 +31,34 @@ Diabetic Retinopathy (DR) requires precise detection of both minute local lesion
 
 Official implementation of the paper **"Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework with Explainability for Severity Grading of Diabetic Retinopathy"**.
 
-## 🏆 Results
-| Dataset | Kappa | AUC (No DR) |
-| :--- | :--- | :--- |
-| **APTOS 2019** | **0.90** | **0.997** |
-| **IDRiD (External)** | **0.76** | **0.958** |
+## 📊 Experimental Results
+
+Our model outperforms recent state-of-the-art methods in terms of reliability (Kappa) and screening safety, validated on both internal and external datasets.
+
+### 1. Internal Validation (APTOS 2019)
+| Metric | Result (95% CI) |
+| :--- | :--- |
+| **Quadratic Kappa ($\kappa$)** | **0.90** (0.88 - 0.92) |
+| **Accuracy** | **84.17%** |
+| **No DR Recall** | **97.5%** |
+| **AUC (No DR)** | **0.997** |
+
+<p align="center">
+  <img src="images/Figure4_ConfusionMatrix_DualLabel.png" width="45%" alt="Confusion Matrix"/>
+  <img src="images/Figure5_APTOS_ROC_HighRes.png" width="45%" alt="APTOS ROC"/>
+</p>
+
+### 2. External Validation (IDRiD - Zero-Shot)
+Despite domain shift, the model maintains high screening reliability.
+
+| Metric | Result |
+| :--- | :--- |
+| **AUC (No DR)** | **0.958** |
+| **Kappa ($\kappa$)** | **0.76** |
+
+<p align="center">
+  <img src="images/Figure6_IDRiD_ROC_HighRes.png" width="60%" alt="IDRiD ROC"/>
+</p>
 
 ## 🚀 How to Run
 
