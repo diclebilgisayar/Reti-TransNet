@@ -6,6 +6,7 @@
 ![alt text](https://img.shields.io/badge/Task-Medical%20Imaging-blue.svg)
 
 ![alt text](images/figure_2.png)
+<p align="center"><em>Fig 1: Overall workflow of Reti-TransNet architecture.</em></p>
 
 This repository contains the official PyTorch implementation of the paper:
 "Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework with Explainability for Severity Grading of Diabetic Retinopathy".
