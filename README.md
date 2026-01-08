@@ -32,7 +32,7 @@ Diabetic Retinopathy (DR) requires precise detection of both minute local lesion
 Our model outperforms recent state-of-the-art methods in terms of reliability (Kappa) and screening safety, validated on both internal and external datasets.
 
 <p align="center">
-  <img src="images/figure_4.png" width="100%" alt="Confusion Matrix"/>
+  <img src="images/figure_4.png" alt="Confusion Matrix"/>
 </p>
 
 ### 1. Internal Validation (APTOS 2019)
@@ -44,7 +44,7 @@ Our model outperforms recent state-of-the-art methods in terms of reliability (K
 | **AUC (No DR)** | **0.997** |
 
 <p align="center">
-  <img src="images/Figure_5.png" width="100%" alt="APTOS ROC"/>
+  <img src="images/Figure_5.png" alt="APTOS ROC"/>
 </p>
 
 ### 2. External Validation (IDRiD - Zero-Shot)
@@ -56,7 +56,7 @@ Despite domain shift, the model maintains high screening reliability.
 | **Kappa ($\kappa$)** | **0.76** |
 
 <p align="center">
-  <img src="images/Figure_6.png" width="100%" alt="IDRiD ROC"/>
+  <img src="images/Figure_6.png" alt="IDRiD ROC"/>
 </p>
 
 ## 🚀 How to Run
