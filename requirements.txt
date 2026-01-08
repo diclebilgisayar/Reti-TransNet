@@ -1,6 +1,3 @@
-# ==========================================
-# 1. requirements.txt
-# ==========================================
 torchvision>=0.15.0
 timm>=0.9.0
 albumentations>=1.3.0
@@ -14,4 +11,3 @@ grad-cam
 scipy
 kaggle
 tqdm
-""")
