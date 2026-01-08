@@ -1,8 +1,3 @@
-# ==========================================
-# 3. src/utils.py
-# ==========================================
-with open(f"{Reti-TransNet}/src/utils.py", "w") as f:
-    f.write("""
 import cv2
 import numpy as np
 import torch
@@ -27,4 +22,3 @@ def ben_graham_preprocessing(image_path):
         return img
     except:
         return np.zeros((224, 224, 3), dtype=np.uint8)
-""")
