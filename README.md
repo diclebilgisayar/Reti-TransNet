@@ -52,9 +52,8 @@ Reti-TransNet shows exceptional performance in identifying healthy patients (Scr
 | **AUC (No DR)** | **0.997** |
 
 <p align="center">
-  <img src="images/figure_4.png" width="45%" alt="Confusion Matrix"/>
   <img src="images/Figure_5.png" width="45%" alt="APTOS ROC"/>
-  <br><em>Left: Confusion Matrix | Right: Internal ROC Curves</em>
+  <br><em>Internal ROC Curves</em>
 </p>
 
 ### 2. External Validation (IDRiD - Zero-Shot)
@@ -67,7 +66,7 @@ Despite domain shift (different camera specifications), the model maintains high
 
 <p align="center">
   <img src="images/Figure_6.png" width="45%" alt="IDRiD ROC"/>
-  <br><em>External Validation ROC Curves (Zero-Shot)</em>
+  <br><em>External ROC Curves (Zero-Shot)</em>
 </p>
 
 ---
