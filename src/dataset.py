@@ -23,16 +23,16 @@ class RetinopathyDataset(Dataset):
         return len(self.df)
 
     def __getitem__(self, idx):
-    row = self.df.loc[idx]
+        row = self.df.loc[idx]
 
-    img_id = str(row["id_code"])
-    label = torch.tensor(row["diagnosis"], dtype=torch.long)
+        img_id = str(row["id_code"])
+        label = torch.tensor(row["diagnosis"], dtype=torch.long)
 
-    img_path = os.path.join(self.img_dir, f"{img_id}.png")
-    image = cv2.imread(img_path)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        img_path = os.path.join(self.img_dir, f"{img_id}.png")
+        image = cv2.imread(img_path)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-    if self.transform:
-        image = self.transform(image=image)["image"]
+        if self.transform:
+            image = self.transform(image=image)["image"]
 
-    return image, label
+        return image, label
