@@ -1,4 +1,3 @@
-%%writefile Reti-TransNet/download_data.py
 import os
 import zipfile
 import sys
