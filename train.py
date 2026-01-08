@@ -1,15 +1,18 @@
+import os
+import cv2
+import numpy as np
+import pandas as pd
+import torch
+import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, WeightedRandomSampler, Dataset
 from sklearn.model_selection import train_test_split
-import pandas as pd
-import numpy as np
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from timm.loss import LabelSmoothingCrossEntropy
 from tqdm import tqdm
-import os
-import cv2
 
+# Proje içindeki diğer dosyalardan importlar
 from model import RetiTransNet
 from utils import seed_everything, ben_graham_preprocessing
 
@@ -22,7 +25,7 @@ class RetinopathyDataset(Dataset):
         
         # 1. Klasördeki TÜM resimlerin yollarını hafızaya al (Haritalama)
         self.image_map = {}
-        print(f"🔍 Indexing images in {root_dir}...")
+        print(f"🔍 Indexing images in '{root_dir}' directory...")
         for root, dirs, files in os.walk(root_dir):
             for file in files:
                 if file.lower().endswith(('.png', '.jpg', '.jpeg', '.tif')):
@@ -30,7 +33,7 @@ class RetinopathyDataset(Dataset):
                     key = os.path.splitext(file)[0]
                     self.image_map[key] = os.path.join(root, file)
         
-        print(f"✅ Indexed {len(self.image_map)} images.")
+        print(f"✅ Indexed {len(self.image_map)} images found.")
 
     def __len__(self):
         return len(self.df)
@@ -52,7 +55,7 @@ class RetinopathyDataset(Dataset):
         
         # Eğer resim bulunamazsa veya bozuksa siyah ekran ver (Eğitimi durdurma)
         if image is None:
-            # print(f"⚠️ Warning: Image not found for ID {img_id}")
+            # Hata basmamak için sessizce siyah döndür
             image = np.zeros((224, 224, 3), dtype=np.uint8)
 
         if self.transform:
@@ -62,8 +65,13 @@ class RetinopathyDataset(Dataset):
         return image, label
 
 def main():
-    seed_everything()
+    # Seed sabitle
+    seed_everything(42)
+    
+    # Cihaz ayarı (Burada torch kullanılıyor, import en başta olduğu için çalışacak)
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+    print(f"🔌 Using device: {DEVICE}")
+
     BATCH_SIZE = 16
     EPOCHS = 25
     LR = 1e-4
