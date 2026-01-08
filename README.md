@@ -1,41 +1,49 @@
 # 👁️ Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading
 
-![alt text](https://img.shields.io/badge/License-MIT-yellow.svg)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
-![alt text](https://img.shields.io/badge/Framework-PyTorch-orange.svg)
-![alt text](https://img.shields.io/badge/Task-Medical%20Imaging-blue.svg)
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
+  <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/Framework-PyTorch-orange.svg" alt="PyTorch"></a>
+  <a href="https://www.kaggle.com/c/aptos2019-blindness-detection"><img src="https://img.shields.io/badge/Task-Medical%20Imaging-blue.svg" alt="Task"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.8+-blue.svg" alt="Python"></a>
+</p>
 
-![alt text](images/figure_2.png)
-<p align="center"><em>Fig 1: Overall workflow of Reti-TransNet architecture.</em></p>
+<p align="center">
+  This repository contains the official PyTorch implementation of the paper:<br>
+  <b>"Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework with Explainability for Severity Grading of Diabetic Retinopathy"</b>.
+</p>
 
-This repository contains the official PyTorch implementation of the paper:
-"Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework with Explainability for Severity Grading of Diabetic Retinopathy".
+---
 
-# 📌 Abstract
+## 📌 Abstract
 
-Diabetic Retinopathy (DR) requires precise detection of both minute local lesions and global structural distortions. Reti-TransNet is a novel hybrid framework that synergizes the local feature extraction capability of EfficientNet-B0 with the global context modeling power of Swin Transformer. Unlike trivial concatenation strategies, we introduce a learnable "Adaptive Gated Fusion" mechanism to dynamically weight the importance of local versus global features based on image complexity.
+Diabetic Retinopathy (DR) requires precise detection of both minute local lesions and global structural distortions. **Reti-TransNet** is a novel hybrid framework that synergizes the local feature extraction capability of **EfficientNet-B0** with the global context modeling power of **Swin Transformer**. Unlike trivial concatenation strategies, we introduce a learnable **"Adaptive Gated Fusion"** mechanism to dynamically weight the importance of local versus global features based on image complexity.
 
-## Key Achievements:
+### 🔑 Key Achievements
+*   🏆 **State-of-the-Art Reliability:** Achieved a **Quadratic Weighted Kappa of 0.90** on the internal APTOS 2019 dataset.
+*   🌍 **Robust Generalization:** Demonstrated strong zero-shot performance on the external **IDRiD** dataset (**AUC 0.958** for screening healthy patients).
+*   🔍 **Explainability:** Integrated **Grad-CAM++** ensures clinical transparency by localizing pathological biomarkers.
+*   ⚡ **Efficiency:** Trained in just **25 epochs** on a single NVIDIA Tesla T4 GPU, highlighting computational efficiency.
 
-- 🏆 **State-of-the-Art Reliability**: Achieved a Quadratic Weighted Kappa of 0.90 on the APTOS 2019 dataset.
+---
 
-- 🌍 **Robust Generalization**: Demonstrated strong zero-shot performance on the external IDRiD dataset (AUC 0.949 for screening healthy patients).
+## 🏗️ Architecture
 
-- 🔍 **Explainability**: Integrated Grad-CAM++ ensures clinical transparency by localizing pathological biomarkers.
+The proposed architecture consists of two parallel branches (CNN & Transformer) fused by a novel **Adaptive Gated Fusion Mechanism**.
 
-- ⚡ **Efficiency**: Trained in just 25 epochs on a single NVIDIA T4 GPU.
+<p align="center">
+  <img src="images/figure_2.png" width="95%">
+  <br><em>Fig 1: Overall workflow of the Reti-TransNet architecture.</em>
+</p>
 
-- 🏗️ **Architecture**: The proposed architecture consists of two parallel branches (CNN & Transformer) fused by a novel Adaptive Gating Mechanism.
+---
 
 ## 📊 Experimental Results
 
-Our model outperforms recent state-of-the-art methods in terms of reliability (Kappa) and screening safety, validated on both internal and external datasets.
+Our model demonstrates superior reliability (Kappa) and screening safety compared to recent state-of-the-art methods.
 
-<p align="center">
-  <img src="images/figure_4.png" alt="Confusion Matrix"/>
-</p>
+### 1. Internal Validation (APTOS 2019)
+Reti-TransNet shows exceptional performance in identifying healthy patients (Screening) and high consistency with expert graders.
 
-#### 1. Internal Validation (APTOS 2019)
 | Metric | Result (95% CI) |
 | :--- | :--- |
 | **Quadratic Kappa ($\kappa$)** | **0.90** (0.88 - 0.92) |
@@ -44,11 +52,13 @@ Our model outperforms recent state-of-the-art methods in terms of reliability (K
 | **AUC (No DR)** | **0.997** |
 
 <p align="center">
-  <img src="images/Figure_5.png" alt="APTOS ROC"/>
+  <img src="images/figure_4.png" width="45%" alt="Confusion Matrix"/>
+  <img src="images/Figure_5.png" width="45%" alt="APTOS ROC"/>
+  <br><em>Left: Confusion Matrix | Right: Internal ROC Curves</em>
 </p>
 
-#### 2. External Validation (IDRiD - Zero-Shot)
-Despite domain shift, the model maintains high screening reliability.
+### 2. External Validation (IDRiD - Zero-Shot)
+Despite domain shift (different camera specifications), the model maintains high screening reliability.
 
 | Metric | Result |
 | :--- | :--- |
@@ -56,22 +66,19 @@ Despite domain shift, the model maintains high screening reliability.
 | **Kappa ($\kappa$)** | **0.76** |
 
 <p align="center">
-  <img src="images/Figure_6.png" alt="IDRiD ROC"/>
+  <img src="images/Figure_6.png" width="45%" alt="IDRiD ROC"/>
+  <br><em>External Validation ROC Curves (Zero-Shot)</em>
 </p>
 
-## 🚀 How to Run
+---
 
-1. **Install Requirements:**
-   ```bash
-   pip install -r requirements.txt
-
-## 🚀 Quick Start on Google Colab
+## 🚀 Quick Start on Google Colab (Recommended)
 
 You can reproduce our results directly on Google Colab without installing anything on your local machine.
 
 ### Prerequisites
 1.  **Google Account:** To access Colab.
-2.  **Kaggle API Key (`kaggle.json`):** Required to download datasets. [Get it here](https://www.kaggle.com/account).
+2.  **Kaggle API Key (`kaggle.json`):** Required to download datasets automatically. [Get it here](https://www.kaggle.com/account).
 
 ### Step-by-Step Guide
 
@@ -80,35 +87,10 @@ You can reproduce our results directly on Google Colab without installing anythi
    *   Click **New Notebook**.
    *   **Important:** Go to `Runtime` > `Change runtime type` and select **T4 GPU**.
 
-**2. Clone Repository & Setup Environment:**
+**2. Clone Repository & Install Dependencies:**
    Copy and run the following code in the first cell:
 
    ```python
-   # 1. Clone the repository
    !git clone https://github.com/diclebilgisayar/Reti-TransNet.git
    %cd Reti-TransNet
-   
-   # 2. Install dependencies
    !pip install -r requirements.txt
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Thanks to Meta AI Research for the Reti-TransNet
-- APTOS-2019 dataset creators and maintainers
-- IDRiD dataset creators and maintainers
-- All contributors and supporters
-
-## Contact
-
-For questions and feedback:
-- 📧 Email:
-- 🌟 Issues: [GitHub Issues](https://github.com/diclebilgisayar/Reti-TransNet/issues)
-  
----
-<p align="center">
-  Made with ❤️ for the Medical Imaging Community
-</p>
