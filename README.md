@@ -94,9 +94,7 @@ You can reproduce our results directly on Google Colab without installing anythi
    %cd Reti-TransNet
    !pip install -r requirements.txt
 
----
-
-## 📂 Data Preparation (Automated)
+**3. ## Data Preparation (Automated)
 
 Due to licensing, the datasets are not included directly. We provide an automated script to download them.
 
@@ -109,11 +107,8 @@ The APTOS 2019 dataset is hosted as a **Kaggle Competition**. To download it, yo
 4.  If prompted, **Verify your account** by entering your phone number and SMS code.
 5.  **Accept the Rules.**
 
-### Automated Download Steps
+---
 
-**Step 1:** Get your `kaggle.json` API token from your [Account Settings](https://www.kaggle.com/account).  
-**Step 2:** Place `kaggle.json` in the **root directory** of this project.  
-**Step 3:** Run the download script:
 
-```bash
-python download_data.py
+
+
