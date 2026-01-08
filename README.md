@@ -88,14 +88,16 @@ Open a new Colab Notebook:**
 
 ### 2. Clone Repository & Install Dependencies:**
 Copy and run the following code in the first cell:
-!git clone https://github.com/diclebilgisayar/Reti-TransNet.git
-%cd Reti-TransNet
-!pip install -r requirements.txt
+
 
 ### 3. Upload API Key & Download Data
 Run the following code in the second cell. It will verify your API key and execute the automated download script for APTOS and IDRiD datasets.
 
 ```python
+!git clone https://github.com/diclebilgisayar/Reti-TransNet.git
+%cd Reti-TransNet
+!pip install -r requirements.txt
+
 from google.colab import files
 import os
 
