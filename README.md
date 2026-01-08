@@ -93,3 +93,25 @@ You can reproduce our results directly on Google Colab without installing anythi
    !git clone https://github.com/diclebilgisayar/Reti-TransNet.git
    %cd Reti-TransNet
    !pip install -r requirements.txt
+
+## 📂 Data Preparation (Automated)
+
+Due to licensing, the datasets are not included directly. We provide an automated script to download them.
+
+### ⚠️ Important: Before You Start
+The APTOS 2019 dataset is hosted as a **Kaggle Competition**. To download it, you must accept the competition rules:
+
+1.  Log in to [Kaggle](https://www.kaggle.com/).
+2.  Go to the [APTOS 2019 Competition Page](https://www.kaggle.com/c/aptos2019-blindness-detection/rules).
+3.  Click **"Join Competition"** or **"Late Submission"**.
+4.  If prompted, **Verify your account** by entering your phone number and SMS code.
+5.  **Accept the Rules.**
+
+### Automated Download Steps
+
+**Step 1:** Get your `kaggle.json` API token from your [Account Settings](https://www.kaggle.com/account).  
+**Step 2:** Place `kaggle.json` in the **root directory** of this project.  
+**Step 3:** Run the download script:
+
+```bash
+python download_data.py
