@@ -1,0 +1,23 @@
+# Datasets
+dataset/
+idrid_dataset/
+
+# Model Weights
+weights/
+*.pth
+*.pt
+*.tar
+
+# Results & Logs
+results/
+__pycache__/
+*.npy
+*.png
+*.jpg
+.ipynb_checkpoints/
+
+# Configs
+kaggle.json
+.DS_Store
+.idea/
+.vscode/
