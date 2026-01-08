@@ -94,6 +94,8 @@ You can reproduce our results directly on Google Colab without installing anythi
    %cd Reti-TransNet
    !pip install -r requirements.txt
 
+---
+
 ## 📂 Data Preparation (Automated)
 
 Due to licensing, the datasets are not included directly. We provide an automated script to download them.
