@@ -1,8 +1,3 @@
-# ==========================================
-# 2. download_data.py
-# ==========================================
-with open(f"{Reti-TransNet}/download_data.py", "w") as f:
-    f.write("""
 import os
 import zipfile
 import sys
@@ -64,4 +59,3 @@ def download_datasets():
 
 if __name__ == "__main__":
     download_datasets()
-""")
