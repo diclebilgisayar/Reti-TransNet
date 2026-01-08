@@ -1,8 +1,3 @@
-# ==========================================
-# 6. train.py (Eğitim - Temiz)
-# ==========================================
-with open(f"{Reti-TransNet}/train.py", "w") as f:
-    f.write("""
 import os
 import torch
 import torch.optim as optim
@@ -146,4 +141,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-""")
