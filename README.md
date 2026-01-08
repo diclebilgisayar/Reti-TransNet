@@ -92,21 +92,17 @@ You can reproduce our results directly on Google Colab without installing anythi
 %cd Reti-TransNet
 !pip install -r requirements.txt
 
-#Upload API Key & Download Data
-#Run the following code in the second cell. It will verify your API key and execute the automated download script for APTOS and IDRiD datasets.
+### 3. Upload API Key & Download Data
+Run the following code in the second cell. It will verify your API key and execute the automated download script for APTOS and IDRiD datasets.
 
+```python
 from google.colab import files
 import os
 
-#Check and upload kaggle.json
+# Check and upload kaggle.json
 if not os.path.exists('kaggle.json'):
     print("Please upload your kaggle.json file:")
     files.upload()
 
-#Run the automated download script
+# Run the automated download script
 !python download_data.py
-
-#Run Training and Evaluation
-Start the training process using the two-stage strategy (approx. 2 hours on T4 GPU).
-!python train.py
-!python evaluate.py
