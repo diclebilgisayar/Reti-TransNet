@@ -1,8 +1,3 @@
-# ==========================================
-# 4. src/model.py (Mimari)
-# ==========================================
-with open(f"{Reti-TransNet}/src/model.py", "w") as f:
-    f.write("""
 import torch
 import torch.nn as nn
 import timm
@@ -55,4 +50,3 @@ class RetiTransNet(nn.Module):
         z_fused = (alpha * v_cnn_aligned) + ((1 - alpha) * v_swin_aligned)
         
         return self.classifier(z_fused)
-""")
