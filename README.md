@@ -108,3 +108,9 @@ if not os.path.exists('kaggle.json'):
 
 # Run the automated download script
 !python download_data.py
+
+# Run the automated download script
+!python train.py
+
+# Run the automated download script
+!python evaluate.py
