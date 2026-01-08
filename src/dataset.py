@@ -1,8 +1,3 @@
-# ==========================================
-# 5. src/dataset.py (Veri Yükleyici)
-# ==========================================
-with open(f"{Reti-TransNet}/src/dataset.py", "w") as f:
-    f.write("""
 import os
 import torch
 import pandas as pd
@@ -45,8 +40,3 @@ class RetinopathyDataset(Dataset):
             
         label = torch.tensor(int(row[1]), dtype=torch.long)
         return image, label
-""")
-
-# Boş __init__.py (Modül olması için)
-with open(f"{REPO_NAME}/src/__init__.py", "w") as f:
-    f.write("")
