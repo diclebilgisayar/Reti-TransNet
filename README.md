@@ -4,7 +4,6 @@
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
   <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/Framework-PyTorch-orange.svg" alt="PyTorch"></a>
   <a href="https://www.kaggle.com/c/aptos2019-blindness-detection"><img src="https://img.shields.io/badge/Task-Medical%20Imaging-blue.svg" alt="Task"></a>
-  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/python-3.8+-blue.svg" alt="Python"></a>
 </p>
 
 <p align="center">
@@ -47,13 +46,14 @@ Reti-TransNet shows exceptional performance in identifying healthy patients (Scr
 | Metric | Result (95% CI) |
 | :--- | :--- |
 | **Quadratic Kappa ($\kappa$)** | **0.90** (0.88 - 0.92) |
-| **Accuracy** | **84.17%** |
-| **No DR Recall** | **97.5%** |
+| **Accuracy** | **84.31%** |
+| **No DR Recall** | **98%** |
 | **AUC (No DR)** | **0.997** |
 
 <p align="center">
-  <img src="images/Figure_5.png" width="45%" alt="APTOS ROC"/>
-  <br><em>Internal ROC Curves</em>
+  <img src="images/Figure4_ConfusionMatrix_DualLabel.png" width="45%" alt="Confusion Matrix"/>
+  <img src="images/Figure5_APTOS_ROC_HighRes.png" width="45%" alt="APTOS ROC"/>
+  <br><em>Left: Confusion Matrix | Right: Internal ROC Curves</em>
 </p>
 
 ### 2. External Validation (IDRiD - Zero-Shot)
@@ -62,16 +62,16 @@ Despite domain shift (different camera specifications), the model maintains high
 | Metric | Result |
 | :--- | :--- |
 | **AUC (No DR)** | **0.958** |
-| **Kappa ($\kappa$)** | **0.76** |
+| **Kappa ($\kappa$)** | **0.77** |
 
 <p align="center">
-  <img src="images/Figure_6.png" width="45%" alt="IDRiD ROC"/>
-  <br><em>External ROC Curves (Zero-Shot)</em>
+  <img src="images/Figure6_IDRiD_ROC_HighRes.png" width="60%" alt="IDRiD ROC"/>
+  <br><em>External Validation ROC Curves (Zero-Shot)</em>
 </p>
 
 ---
 
-## 🚀 Quick Start on Google Colab (Recommended)
+## 🚀 Quick Start on Google Colab (For Reviewers)
 
 You can reproduce our results directly on Google Colab without installing anything on your local machine.
 
@@ -79,7 +79,7 @@ You can reproduce our results directly on Google Colab without installing anythi
 1.  **Google Account:** To access Colab.
 2.  **Kaggle API Key (`kaggle.json`):** Required to download datasets automatically. [Get it here](https://www.kaggle.com/account).
 
-### Step-by-Step Guide
+### Step-by-Step Instructions
 
 **1. Open a new Colab Notebook:**
    *   Go to [Google Colab](https://colab.research.google.com/).
@@ -89,29 +89,7 @@ You can reproduce our results directly on Google Colab without installing anythi
 **2. Clone Repository & Install Dependencies:**
    Copy and run the following code in the first cell:
 
----
-
-## 📂 Data Preparation (Automated)
-
-Due to licensing, the datasets are not included directly. We provide an automated script to download them.
-
-### ⚠️ Important: Before You Start
-The APTOS 2019 dataset is hosted as a **Kaggle Competition**. To download it, you must accept the competition rules:
-
-1.  Log in to [Kaggle](https://www.kaggle.com/).
-2.  Go to the [APTOS 2019 Competition Page](https://www.kaggle.com/c/aptos2019-blindness-detection/rules).
-3.  Click **"Join Competition"** or **"Late Submission"**.
-4.  If prompted, **Verify your account** by entering your phone number and SMS code.
-5.  **Accept the Rules.**
-
-### Automated Download Steps
-
-**Step 1:** Get your `kaggle.json` API token from your [Account Settings](https://www.kaggle.com/account).  
-**Step 2:** Place `kaggle.json` in the **root directory** of this project.  
-**Step 3:** Run the download script:
-
-```bash
-python download_data.py
-
-
-
+   ```python
+   !git clone https://github.com/diclebilgisayar/Reti-TransNet.git
+   %cd Reti-TransNet
+   !pip install -r requirements.txt
