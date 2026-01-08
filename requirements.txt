@@ -11,3 +11,4 @@ opencv-python
 grad-cam
 scipy
 kaggle
+tqdm
