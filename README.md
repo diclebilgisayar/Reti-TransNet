@@ -81,13 +81,13 @@ You can reproduce our results directly on Google Colab without installing anythi
 
 ### Step-by-Step Instructions
 
-**1. Open a new Colab Notebook:**
+Open a new Colab Notebook:**
    *   Go to [Google Colab](https://colab.research.google.com/).
    *   Click **New Notebook**.
    *   **Important:** Go to `Runtime` > `Change runtime type` and select **T4 GPU**.
 
-**2. Clone Repository & Install Dependencies:**
-#Copy and run the following code in the first cell:
+### 2. Clone Repository & Install Dependencies:**
+Copy and run the following code in the first cell:
 !git clone https://github.com/diclebilgisayar/Reti-TransNet.git
 %cd Reti-TransNet
 !pip install -r requirements.txt
