@@ -59,6 +59,32 @@ Despite domain shift, the model maintains high screening reliability.
   <img src="images/Figure_6.png" alt="IDRiD ROC"/>
 </p>
 
+## 🚀 Quick Start on Google Colab
+
+You can reproduce our results directly on Google Colab without installing anything on your local machine.
+
+### Prerequisites
+1.  **Google Account:** To access Colab.
+2.  **Kaggle API Key (`kaggle.json`):** Required to download datasets. [Get it here](https://www.kaggle.com/account).
+
+### Step-by-Step Guide
+
+**1. Open a new Colab Notebook:**
+   *   Go to [Google Colab](https://colab.research.google.com/).
+   *   Click **New Notebook**.
+   *   **Important:** Go to `Runtime` > `Change runtime type` and select **T4 GPU**.
+
+**2. Clone Repository & Setup Environment:**
+   Copy and run the following code in the first cell:
+
+   ```python
+   # 1. Clone the repository
+   !git clone https://github.com/diclebilgisayar/Reti-TransNet.git
+   %cd Reti-TransNet
+   
+   # 2. Install dependencies
+   !pip install -r requirements.txt
+
 ## 🚀 How to Run
 
 1. **Install Requirements:**
