@@ -1,11 +1,12 @@
 import os
 import zipfile
 import shutil
+import sys
 
 def download_datasets():
     """
     Automated script to download and setup datasets for Reti-TransNet.
-    Requires 'kaggle.json' in the root directory.
+    Compatible with both Google Colab (interactive upload) and Local Machines.
     """
     print("🚀 Starting Data Preparation for Reti-TransNet...")
 
@@ -13,25 +14,40 @@ def download_datasets():
     os.makedirs('dataset', exist_ok=True)
     os.makedirs('idrid_dataset', exist_ok=True)
 
-    # 2. Check for Kaggle API Key
+    # 2. Check for Kaggle API Key & Handle Colab Upload
     if not os.path.exists('kaggle.json'):
-        print("❌ Error: 'kaggle.json' not found in the root directory.")
-        print("   Please download your API key from Kaggle -> Settings -> Create New Token")
-        print("   and place the 'kaggle.json' file here.")
-        return
+        # Check if running in Google Colab
+        if 'google.colab' in sys.modules:
+            print("⚠️ 'kaggle.json' not found. Opening upload window...")
+            try:
+                from google.colab import files
+                uploaded = files.upload()
+                if 'kaggle.json' not in uploaded:
+                    print("❌ Error: You uploaded the wrong file. Please upload 'kaggle.json'.")
+                    return
+            except Exception as e:
+                print(f"❌ Upload failed: {e}")
+                return
+        else:
+            # Running locally
+            print("❌ Error: 'kaggle.json' not found in the root directory.")
+            print("   Please place the 'kaggle.json' file here manually.")
+            return
 
     # Set Kaggle Config Directory to current folder
     os.environ['KAGGLE_CONFIG_DIR'] = os.getcwd()
     
-    # Permission fix for Linux/Colab
+    # Permission fix
     try:
         os.chmod('kaggle.json', 0o600)
     except:
         pass 
 
+    print("✅ Kaggle API Key configured.")
+
     # ---------------------------------------------------------
     # 3. DOWNLOAD APTOS 2019 (Internal Dataset)
-    # Source: sovitrath/diabetic-retinopathy-224x224-2019-data (Public Mirror)
+    # Source: sovitrath/diabetic-retinopathy-224x224-2019-data
     # ---------------------------------------------------------
     print("\n📥 Checking APTOS 2019 Dataset...")
     
@@ -59,7 +75,7 @@ def download_datasets():
 
     # ---------------------------------------------------------
     # 4. DOWNLOAD IDRiD (External Validation)
-    # Source: mariaherrerot/idrid-dataset (Public Mirror)
+    # Source: mariaherrerot/idrid-dataset
     # ---------------------------------------------------------
     print("\n📥 Checking IDRiD Dataset...")
 
