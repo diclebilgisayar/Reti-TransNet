@@ -89,11 +89,6 @@ You can reproduce our results directly on Google Colab without installing anythi
 **2. Clone Repository & Install Dependencies:**
    Copy and run the following code in the first cell:
 
-   ```python
-   !git clone https://github.com/diclebilgisayar/Reti-TransNet.git
-   %cd Reti-TransNet
-   !pip install -r requirements.txt
-
 **3. ## Data Preparation (Automated)
 
 Due to licensing, the datasets are not included directly. We provide an automated script to download them.
