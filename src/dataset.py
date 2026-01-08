@@ -25,19 +25,21 @@ class RetinopathyDataset(Dataset):
         return len(self.df)
 
     def __getitem__(self, idx):
-        row = self.df.iloc[idx]
-        img_id = str(row[0])
+        row = self.df.iloc[idx]  # Pozisyon ile satırı alıyoruz
+    
+        # ✅ Sütun isimleri ile erişim
+        img_id = str(row["id_code"])
         img_path = self.image_map.get(img_id, None)
-        
+    
         image = None
         if img_path:
             image = ben_graham_preprocessing(img_path)
-        
+    
         if image is None: 
             image = np.zeros((224, 224, 3), dtype=np.uint8)
 
         if self.transform:
             image = self.transform(image=image)['image']
-            
-        label = torch.tensor(int(row[1]), dtype=torch.long)
+    
+        label = torch.tensor(row["diagnosis"], dtype=torch.long)
         return image, label
