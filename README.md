@@ -35,7 +35,7 @@ Our model outperforms recent state-of-the-art methods in terms of reliability (K
   <img src="images/figure_4.png" alt="Confusion Matrix"/>
 </p>
 
-### 1. Internal Validation (APTOS 2019)
+## 1. Internal Validation (APTOS 2019)
 | Metric | Result (95% CI) |
 | :--- | :--- |
 | **Quadratic Kappa ($\kappa$)** | **0.90** (0.88 - 0.92) |
@@ -47,7 +47,7 @@ Our model outperforms recent state-of-the-art methods in terms of reliability (K
   <img src="images/Figure_5.png" alt="APTOS ROC"/>
 </p>
 
-### 2. External Validation (IDRiD - Zero-Shot)
+## 2. External Validation (IDRiD - Zero-Shot)
 Despite domain shift, the model maintains high screening reliability.
 
 | Metric | Result |
