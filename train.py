@@ -1,9 +1,9 @@
 import os
+import sys
 import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader, WeightedRandomSampler
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import cohen_kappa_score
 import pandas as pd
 import numpy as np
 import albumentations as A
@@ -15,11 +15,28 @@ from src.dataset import RetinopathyDataset
 from src.utils import seed_everything
 
 
+# ===============================
+# Tek Satırlık Progress Bar
+# ===============================
+def render_bar(epoch, total_epochs, batch_idx, total_batches, bar_len=25):
+    progress = (batch_idx + 1) / total_batches
+    filled = int(bar_len * progress)
+    bar = "█" * filled + "-" * (bar_len - filled)
+    percent = int(progress * 100)
+
+    return (
+        f"\rEpoch {epoch}/{total_epochs}: "
+        f"[{bar}] {percent}%"
+    )
+
+
 def main():
     seed_everything(42)
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
+    # ===============================
     # Dataset
+    # ===============================
     csv_path = None
     for root, _, files in os.walk("dataset"):
         for f in files:
@@ -27,7 +44,7 @@ def main():
                 csv_path = os.path.join(root, f)
 
     if not csv_path:
-        print("❌ Error: Dataset not found.")
+        print("❌ Dataset not found.")
         return
 
     df = pd.read_csv(csv_path)
@@ -44,7 +61,9 @@ def main():
         random_state=42,
     )
 
+    # ===============================
     # Augmentations
+    # ===============================
     train_tfms = A.Compose(
         [
             A.Resize(224, 224),
@@ -55,7 +74,9 @@ def main():
         ]
     )
 
-    # Weighted sampler
+    # ===============================
+    # Weighted Sampler
+    # ===============================
     targets = train_df["diagnosis"].values
     class_weights = 1.0 / np.bincount(targets)
     sample_weights = class_weights[targets]
@@ -74,6 +95,9 @@ def main():
         pin_memory=True,
     )
 
+    # ===============================
+    # Model / Optim / Loss
+    # ===============================
     model = RetiTransNet(num_classes=5).to(DEVICE)
     optimizer = optim.AdamW(model.parameters(), lr=1e-4)
     criterion = LabelSmoothingCrossEntropy(smoothing=0.1)
@@ -81,9 +105,13 @@ def main():
 
     os.makedirs("weights", exist_ok=True)
 
+    TOTAL_EPOCHS = 25
     print("🔥 Starting Training (25 Epochs)...")
 
-    for epoch in range(1, 26):
+    # ===============================
+    # Training Loop
+    # ===============================
+    for epoch in range(1, TOTAL_EPOCHS + 1):
         model.train()
 
         if epoch == 16:
@@ -94,9 +122,10 @@ def main():
         running_loss = 0.0
         correct = 0
         total = 0
-        all_preds, all_labels = [], []
 
-        for imgs, labels in train_loader:
+        total_batches = len(train_loader)
+
+        for batch_idx, (imgs, labels) in enumerate(train_loader):
             imgs = imgs.to(DEVICE)
             labels = labels.to(DEVICE)
 
@@ -116,21 +145,23 @@ def main():
             correct += (preds == labels).sum().item()
             total += labels.size(0)
 
-            all_preds.extend(preds.cpu().numpy())
-            all_labels.extend(labels.cpu().numpy())
+            # 🔥 AYNI SATIRDA BAR GÜNCELLE
+            sys.stdout.write(
+                render_bar(epoch, TOTAL_EPOCHS, batch_idx, total_batches)
+            )
+            sys.stdout.flush()
 
-        epoch_loss = running_loss / len(train_loader)
+        # ===============================
+        # Epoch Sonu (AYNI SATIRDA)
+        # ===============================
+        epoch_loss = running_loss / total_batches
         epoch_acc = 100.0 * correct / total
-        epoch_kappa = cohen_kappa_score(
-            all_labels, all_preds, weights="quadratic"
-        )
 
-        print(
-            f"Epoch {epoch}/25: 100% {len(train_loader)}/{len(train_loader)} | "
-            f"Loss: {epoch_loss:.4f} | "
-            f"Acc: {epoch_acc:.2f}% | "
-            f"Kappa: {epoch_kappa:.4f}"
+        sys.stdout.write(
+            f" | Loss: {epoch_loss:.4f} | "
+            f"Acc: {epoch_acc:.2f}%\n"
         )
+        sys.stdout.flush()
 
         torch.save(model.state_dict(), "weights/retitransnet_best.pth")
 
