@@ -109,25 +109,25 @@ Despite the domain shift (different camera specifications), Reti-TransNet mainta
 
 ## 📁 Project Structure
 
-The repository is organized as follows to ensure modularity and reproducibility:
+The repository is organized to ensure **modularity, clarity, and reproducibility**:
 
 ```text
 Reti-TransNet/
 │
 ├── src/                     # Core implementation modules
-│   ├── model.py             # Reti-TransNet architecture & Adaptive Gated Fusion logic
-│   ├── dataset.py           # Custom dataloaders with robust image indexing
-│   └── utils.py             # Helper functions (Ben Graham preprocessing, seeding)
+│   ├── model.py             # Reti-TransNet architecture & Adaptive Gated Fusion
+│   ├── dataset.py           # Custom dataset loaders with robust indexing
+│   └── utils.py             # Utilities (Ben Graham preprocessing, seeding)
 │
-├── weights/                 # Directory where trained model checkpoints are saved
-├── results/                 # Directory where evaluation plots (ROC, CM) are generated
-├── images/                  # Figures used in this README
+├── weights/                 # Saved trained model checkpoints
+├── results/                 # Evaluation outputs (ROC curves, confusion matrices)
+├── images/                  # Figures used in README
 │
-├── train.py                 # Main training script (Two-stage transfer learning)
-├── evaluate.py              # Evaluation script (TTA, Threshold Optimization, Grad-CAM++)
-├── download_data.py         # Automated script to fetch datasets from Kaggle mirrors
+├── train.py                 # Training pipeline (two-stage transfer learning)
+├── evaluate.py              # Evaluation (TTA, threshold optimization, Grad-CAM++)
+├── download_data.py         # Automated dataset download (Kaggle mirrors)
 │
-├── requirements.txt         # List of Python dependencies
+├── requirements.txt         # Python dependencies
 └── README.md                # Project documentation
 
 ---
