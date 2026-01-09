@@ -70,6 +70,8 @@ Reti-TransNet shows exceptional performance in identifying healthy patients (Scr
   <br><em>Fig 2: Internal ROC Curves</em>
 </p>
 
+--
+
 ### 2. External Validation (IDRiD - Zero-Shot)
 Despite domain shift (different camera specifications), the model maintains high screening reliability.
 
@@ -131,3 +133,5 @@ if not os.path.exists('kaggle.json'):
 
 # Evaluate the trained model using standard medical imaging metrics
 !python evaluate.py
+
+---
