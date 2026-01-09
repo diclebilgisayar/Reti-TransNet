@@ -85,7 +85,7 @@ def main():
             if file.endswith('.csv') and 'train' in file: csv_path = os.path.join(r, file)
             
     if csv_path:
-        print("\\n--- INTERNAL VALIDATION (APTOS) ---")
+        print("\--- INTERNAL VALIDATION (APTOS) ---")
         df = pd.read_csv(csv_path)
         if 'id_code' not in df.columns: df.rename(columns={df.columns[0]: 'id_code', df.columns[1]: 'diagnosis'}, inplace=True)
         
@@ -112,7 +112,7 @@ def main():
     if os.path.exists('idrid_dataset/idrid_labels.csv'): idrid_csv = 'idrid_dataset/idrid_labels.csv'
     
     if idrid_csv:
-        print("\\n--- EXTERNAL VALIDATION (IDRiD) ---")
+        print("\--- EXTERNAL VALIDATION (IDRiD) ---")
         df = pd.read_csv(idrid_csv).iloc[:, :2]
         loader = DataLoader(RetinopathyDataset(df, 'idrid_dataset', transform=val_aug), batch_size=16)
         y, _, p = predict_tta(model, loader)
