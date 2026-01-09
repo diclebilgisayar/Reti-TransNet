@@ -114,13 +114,11 @@ The following steps will clone the official repository, install required depende
 %cd Reti-TransNet
 !pip install -r requirements.txt
 
-
-from google.colab import files
-import os
-
 # Verify and upload Kaggle API credentials
 # The kaggle.json file can be obtained from:
 # Kaggle → Account → API → Create New API Token
+from google.colab import files
+import os
 if not os.path.exists('kaggle.json'):
     print("Please upload your kaggle.json file to proceed:")
     files.upload()
@@ -128,10 +126,8 @@ if not os.path.exists('kaggle.json'):
 # Automatically download and prepare the APTOS and IDRiD datasets
 !python download_data.py
 
-
 # Train the proposed Reti-TransNet model
 !python train.py
-
 
 # Evaluate the trained model using standard medical imaging metrics
 !python evaluate.py
