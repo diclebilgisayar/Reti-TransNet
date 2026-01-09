@@ -100,11 +100,8 @@ Open a new Colab Notebook:**
    *   Click **New Notebook**.
    *   **Important:** Go to `Runtime` > `Change runtime type` and select **T4 GPU**.
 
-### 2. Clone Repository & Install Dependencies:**
-Copy and run the following code in the first cell:
 
-
-### 3. Upload API Key & Download Data
+### Clone Repository & Install Dependencies:
 Run the following code in the second cell. It will verify your API key and execute the automated download script for APTOS and IDRiD datasets.
 
 ```python
