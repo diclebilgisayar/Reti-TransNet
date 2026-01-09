@@ -102,32 +102,87 @@ Open a new Colab Notebook:
 
 ---
 
-### 🚀 Setup Environment, Download Datasets, and Run Experiments
+You can reproduce the entire study (Setup -> Data -> Train -> Evaluate) by running a single code block.
 
-The following steps will clone the official repository, install required dependencies, verify your Kaggle API credentials, automatically download the APTOS 2019 and IDRiD datasets, train the Reti-TransNet model, and evaluate its performance using standard medical imaging metrics.
+### Prerequisites
+1.  **Download this Repository:** Click **Code -> Download ZIP** on GitHub.
+2.  **Get Kaggle API Key:** Have your `kaggle.json` file ready.
+3.  **Open Colab:** Go to [Google Colab](https://colab.research.google.com/) and create a new notebook.
+4.  **Upload ZIP:** Drag and drop the `Reti-TransNet-main.zip` file into the Colab file panel (left side).
+
+### ⚡ Run Everything
+Copy and run the following code in a Colab cell. It will handle unzipping, installation, data download, training, and evaluation automatically.
 
 ```python
-# Clone the official repository and install dependencies
-!git clone https://github.com/diclebilgisayar/Reti-TransNet.git
-%cd Reti-TransNet
-!pip install -r requirements.txt
-
-# Verify and upload Kaggle API credentials
-# The kaggle.json file can be obtained from:
-# Kaggle → Account → API → Create New API Token
-from google.colab import files
 import os
-if not os.path.exists('kaggle.json'):
-    print("Please upload your kaggle.json file to proceed:")
-    files.upload()
+import sys
 
-# Automatically download and prepare the APTOS and IDRiD datasets
-!python download_data.py
+# --- 1. UNZIP & SETUP PROJECT ---
+# Automatically find and unzip the uploaded project file
+zip_files = [f for f in os.listdir() if f.endswith('.zip')]
 
-# Train the proposed Reti-TransNet model
-!python train.py
+if len(zip_files) == 0:
+    print("❌ ERROR: No .zip file found! Please drag & drop the repository ZIP file here.")
+else:
+    zip_name = zip_files[0]
+    target_dir = "Reti-TransNet_Review"
 
-# Evaluate the trained model using standard medical imaging metrics
-!python evaluate.py
+    print(f"📦 Extracting '{zip_name}' to '{target_dir}'...")
+    # Force unzip into a clean directory
+    os.system(f'unzip -q "{zip_name}" -d "{target_dir}"')
 
----
+    # Enter the directory
+    os.chdir(target_dir)
+
+    # Handle nested folders (if GitHub created a subfolder inside zip)
+    if not os.path.exists('requirements.txt'):
+        sub_folders = [d for d in os.listdir() if os.path.isdir(d) and not d.startswith('.')]
+        if sub_folders:
+            os.chdir(sub_folders[0])
+            print(f"📂 Entered sub-folder: {os.getcwd()}")
+
+    print(f"📍 Current Working Directory: {os.getcwd()}")
+
+    # --- 2. INSTALL DEPENDENCIES ---
+    if os.path.exists('requirements.txt'):
+        print("⚙️ Installing dependencies...")
+        os.system('pip install -r requirements.txt')
+        print("✅ Installation Complete!")
+    else:
+        print("❌ CRITICAL ERROR: 'requirements.txt' not found. Check the zip file.")
+        sys.exit()
+
+    # --- 3. KAGGLE API SETUP ---
+    # Check if kaggle.json exists, if not, ask for upload
+    if not os.path.exists('kaggle.json'):
+        print("\n📂 Please upload your 'kaggle.json' file now:")
+        from google.colab import files
+        uploaded = files.upload()
+        
+        # Move kaggle.json to current directory if uploaded elsewhere
+        if 'kaggle.json' in uploaded:
+             print("✅ Kaggle key uploaded.")
+        else:
+             print("⚠️ Warning: 'kaggle.json' not detected in upload.")
+
+    # --- 4. DATA PREPARATION ---
+    print("\n🚀 [1/3] Downloading & Preparing Data...")
+    from download_data import download_datasets
+    download_datasets()
+
+    # --- 5. TRAINING ---
+    print("\n🔥 [2/3] Starting Training (This may take time)...")
+    # Using os.system to run as a script ensures clean memory usage
+    exit_code = os.system('python train.py')
+    if exit_code == 0:
+        print("✅ Training Finished.")
+    else:
+        print("❌ Training Failed.")
+
+    # --- 6. EVALUATION ---
+    print("\n📊 [3/3] Running Evaluation & Generating Plots...")
+    exit_code = os.system('python evaluate.py')
+    if exit_code == 0:
+        print("✅ Evaluation Finished! Check 'results/' folder for figures.")
+    else:
+        print("❌ Evaluation Failed.")
