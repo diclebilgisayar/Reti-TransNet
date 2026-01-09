@@ -159,7 +159,7 @@ def main():
 
         sys.stdout.write(
             f" | Loss: {epoch_loss:.4f} | "
-            f"Acc: {epoch_acc:.2f}%\n\n"
+            f"Acc: {epoch_acc:.2f}%\n"
         )
         sys.stdout.flush()
 
