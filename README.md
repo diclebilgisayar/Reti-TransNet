@@ -111,7 +111,6 @@ Despite the domain shift (different camera specifications), Reti-TransNet mainta
 
 The repository is organized to ensure **modularity, clarity, and reproducibility**:
 
-```text
 Reti-TransNet/
 │
 ├── src/                     # Core implementation modules
