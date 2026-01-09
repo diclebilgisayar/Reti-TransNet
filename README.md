@@ -85,7 +85,6 @@ Despite domain shift (different camera specifications), the model maintains high
   <br><em>Fig 3: External ROC Curves (Zero-Shot)</em>
 </p>
 
----
 
 ## 🚀 Quick Start on Google Colab (For Reviewers)
 
