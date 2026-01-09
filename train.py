@@ -78,25 +78,29 @@ def main():
     criterion = LabelSmoothingCrossEntropy(smoothing=0.1)
     scaler = torch.amp.GradScaler("cuda")
 
-    print(f"\n🔥 Starting Training on {DEVICE} (25 Epochs)...\n")
+    print(f"🔥 Starting Training on {DEVICE} (25 Epochs)...\n")
     os.makedirs("weights", exist_ok=True)
 
     # ================= TRAIN =================
     for epoch in range(1, 26):
         model.train()
 
+        # Fine-tuning: Epoch 16'da Learning Rate düşür
         if epoch == 16:
             for g in optimizer.param_groups:
                 g["lr"] = 5e-5
 
         running_loss = 0.0
+        correct = 0
+        total = 0
         all_preds, all_labels = [], []
 
+        # TQDM Barı
         loop = tqdm(
             loader,
             desc=f"Epoch {epoch}/25",
-            ncols=90,
-            leave=True
+            ncols=100, # Bar genişliği
+            leave=True # Biten satırı ekranda bırak
         )
 
         for imgs, labels in loop:
@@ -113,31 +117,40 @@ def main():
             scaler.step(optimizer)
             scaler.update()
 
+            # İstatistikler
             running_loss += loss.item()
             _, preds = torch.max(outputs, 1)
+            
+            # Accuracy Hesabı
+            correct += (preds == labels).sum().item()
+            total += labels.size(0)
 
+            # Kappa Hesabı için veri toplama
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
 
-            # Batch bazlı loss göster, kappa placeholder
+            # Anlık Gösterim (Her adımda güncellenir)
+            # Kappa anlık hesaplanamaz (gürültülü olur), o yüzden '--' görünür
             loop.set_postfix(
                 loss=f"{running_loss / (loop.n + 1):.4f}",
+                acc=f"{100 * correct / total:.2f}%",
                 kappa="--"
             )
 
-        # Epoch sonunda kappa hesapla
+        # Epoch Bitti: Kesin Sonuçları Hesapla
         epoch_loss = running_loss / len(loader)
+        epoch_acc = 100 * correct / total
         epoch_kappa = cohen_kappa_score(all_labels, all_preds, weights="quadratic")
 
-        # Bar üzerinde loss ve kappa güncelle
+        # Çubuğu güncelle: Artık Kappa değeri de görünür
         loop.set_postfix(
             loss=f"{epoch_loss:.4f}",
+            acc=f"{epoch_acc:.2f}%",
             kappa=f"{epoch_kappa:.4f}"
         )
 
         # Modeli kaydet
         torch.save(model.state_dict(), "weights/retitransnet_best.pth")
-
 
 if __name__ == "__main__":
     main()
