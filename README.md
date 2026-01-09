@@ -106,17 +106,6 @@ Open a new Colab Notebook:
 
 ### 🚀 Setup Environment, Download Datasets, and Run Experiments
 
-
-### Step-by-Step Instructions
-
-Open a new Colab Notebook:**
-   *   Go to [Google Colab](https://colab.research.google.com/).
-   *   Click **New Notebook**.
-   *   **Important:** Go to `Runtime` > `Change runtime type` and select **T4 GPU**.
-
-
-### Setup Environment, Download Datasets, and Run Experiments
-
 The following steps will clone the official repository, install required dependencies, verify your Kaggle API credentials, automatically download the APTOS 2019 and IDRiD datasets, train the Reti-TransNet model, and evaluate its performance using standard medical imaging metrics.
 
 ```python
