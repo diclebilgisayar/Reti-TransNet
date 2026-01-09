@@ -101,8 +101,12 @@ Open a new Colab Notebook:**
    *   **Important:** Go to `Runtime` > `Change runtime type` and select **T4 GPU**.
 
 
-### Clone Repository & Install Dependencies:
-Run the following code in the second cell. It will verify your API key and execute the automated download script for APTOS and IDRiD datasets.
+### Setup Environment, Download Datasets, and Run Experiments
+
+The following steps will clone the official repository, install required dependencies, verify your Kaggle API credentials, automatically download the APTOS 2019 and IDRiD datasets, train the Reti-TransNet model, and evaluate its performance using standard medical imaging metrics.
+
+```python
+# Step 1: Clone the repository and install dependencies
 
 ```python
 # Clone the official repository and install dependencies
