@@ -16,6 +16,11 @@
   <a href="https://www.kaggle.com/c/aptos2019-blindness-detection">
     <img src="https://img.shields.io/badge/Task-Medical%20Imaging-blue.svg" alt="Task">
   </a>
+  </a>
+  <img src="https://img.shields.io/badge/Model-CNN-green.svg" alt="CNN">
+  <img src="https://img.shields.io/badge/Model-Vision%20Transformer-purple.svg" alt="Vision Transformer">
+  <img src="https://img.shields.io/badge/Metric-F1--Score-success.svg" alt="Metric">
+  <a href="#">
 </p>
 
 
