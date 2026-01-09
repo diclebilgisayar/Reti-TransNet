@@ -1,4 +1,7 @@
-# 👁️ Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading
+<h1 align="center">
+👁️ Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading
+</h1>
+
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT">
