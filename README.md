@@ -89,9 +89,23 @@ Despite domain shift (different camera specifications), the model maintains high
 
 You can reproduce our results directly on Google Colab without installing anything on your local machine.
 
-### Prerequisites
-1.  **Google Account:** To access Colab.
-2.  **Kaggle API Key (`kaggle.json`):** Required to download datasets automatically. [Get it here](https://www.kaggle.com/account).
+### 📝 Prerequisites
+1.  **👤 Google Account:** To access Colab.
+2.  **🔑 Kaggle API Key (`kaggle.json`):** Required to download datasets automatically. [Get it here](https://www.kaggle.com/account).
+
+---
+
+### 🛠 Step-by-Step Instructions
+
+Open a new Colab Notebook:
+- Go to [Google Colab](https://colab.research.google.com/).  
+- Click **New Notebook**.  
+- **⚠️ Important:** Go to `Runtime` → `Change runtime type` → Select **T4 GPU**.
+
+---
+
+### 🚀 Setup Environment, Download Datasets, and Run Experiments
+
 
 ### Step-by-Step Instructions
 
