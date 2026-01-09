@@ -97,7 +97,7 @@ def main():
         loop = tqdm(
             loader,
             desc=f"Epoch {epoch}/25",
-            ncols=120,
+            ncols=60,
             leave=True
         )
 
@@ -126,7 +126,8 @@ def main():
 
             loop.set_postfix(
                 loss=f"{running_loss / max(1, loop.n):.4f}",
-                acc=f"{100 * correct / max(1, total):.2f}%"
+                acc=f"{100 * correct / max(1, total):.2f}%",
+                kappa="--"
             )
 
         epoch_loss = running_loss / len(loader)
