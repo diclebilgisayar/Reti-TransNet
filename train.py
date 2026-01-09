@@ -23,26 +23,26 @@ def main():
     seed_everything(42)
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # --- DATA ---
+    # ================= DATA =================
     csv_path = None
-    for root, _, files in os.walk('dataset'):
+    for root, _, files in os.walk("dataset"):
         for f in files:
-            if f.endswith('.csv') and 'train' in f:
+            if f.endswith(".csv") and "train" in f:
                 csv_path = os.path.join(root, f)
 
-    if not csv_path:
+    if csv_path is None:
         print("❌ Dataset not found. Run download_data.py")
         return
 
     df = pd.read_csv(csv_path)
-    if 'id_code' not in df.columns:
-        df.rename(columns={df.columns[0]: 'id_code',
-                           df.columns[1]: 'diagnosis'}, inplace=True)
+    if "id_code" not in df.columns:
+        df.rename(columns={df.columns[0]: "id_code",
+                           df.columns[1]: "diagnosis"}, inplace=True)
 
     train_df, _ = train_test_split(
         df,
         test_size=0.2,
-        stratify=df['diagnosis'],
+        stratify=df["diagnosis"],
         random_state=42
     )
 
@@ -54,72 +54,92 @@ def main():
         ToTensorV2()
     ])
 
-    targets = train_df['diagnosis'].values
-    weights = 1. / np.bincount(targets)
+    targets = train_df["diagnosis"].values
+    class_weights = 1. / np.bincount(targets)
+    sample_weights = class_weights[targets]
+
     sampler = WeightedRandomSampler(
-        weights[targets],
-        len(targets)
+        weights=sample_weights,
+        num_samples=len(sample_weights),
+        replacement=True
     )
 
     loader = DataLoader(
-        RetinopathyDataset(train_df, 'dataset', transform=aug),
+        RetinopathyDataset(train_df, "dataset", transform=aug),
         batch_size=16,
         sampler=sampler,
         num_workers=2,
         pin_memory=True
     )
 
-    # --- MODEL ---
+    # ================= MODEL =================
     model = RetiTransNet(num_classes=5).to(DEVICE)
     optimizer = optim.AdamW(model.parameters(), lr=1e-4)
     criterion = LabelSmoothingCrossEntropy(smoothing=0.1)
-    scaler = torch.amp.GradScaler('cuda')
+    scaler = torch.amp.GradScaler("cuda")
 
     print(f"\n🔥 Starting Training on {DEVICE} (25 Epochs)...\n")
     os.makedirs("weights", exist_ok=True)
 
+    # ================= TRAIN =================
     for epoch in range(1, 26):
         model.train()
 
         if epoch == 16:
             for g in optimizer.param_groups:
-                g['lr'] = 5e-5
+                g["lr"] = 5e-5
 
-        running_loss, correct, total = 0.0, 0, 0
+        running_loss = 0.0
+        correct = 0
+        total = 0
         all_preds, all_labels = [], []
 
         loop = tqdm(
             loader,
             desc=f"Epoch {epoch}/25",
-            dynamic_ncols=True,
-            leave=True
+            ncols=120,
+            ascii=False,
+            leave=True,
+            bar_format=(
+                "{l_bar}{bar}| {n_fmt}/{total_fmt} "
+                "[{elapsed}<{remaining}, {rate_fmt}, "
+                "loss={postfix[loss]}, acc={postfix[acc]}, kappa={postfix[kappa]}]"
+            )
         )
 
-        for img, lbl in loop:
-            img, lbl = img.to(DEVICE), lbl.to(DEVICE)
+        for imgs, labels in loop:
+            imgs = imgs.to(DEVICE)
+            labels = labels.to(DEVICE)
+
             optimizer.zero_grad()
 
-            with torch.amp.autocast('cuda'):
-                out = model(img)
-                loss = criterion(out, lbl)
+            with torch.amp.autocast("cuda"):
+                outputs = model(imgs)
+                loss = criterion(outputs, labels)
 
             scaler.scale(loss).backward()
             scaler.step(optimizer)
             scaler.update()
 
             running_loss += loss.item()
-            _, preds = torch.max(out, 1)
+            _, preds = torch.max(outputs, 1)
 
-            correct += (preds == lbl).sum().item()
-            total += lbl.size(0)
+            correct += (preds == labels).sum().item()
+            total += labels.size(0)
 
             all_preds.extend(preds.cpu().numpy())
-            all_labels.extend(lbl.cpu().numpy())
+            all_labels.extend(labels.cpu().numpy())
+
+            loop.set_postfix(
+                loss=f"{running_loss / max(1, loop.n):.4f}",
+                acc=f"{100 * correct / max(1, total):.2f}%",
+                kappa="--"
+            )
 
         epoch_loss = running_loss / len(loader)
         epoch_acc = 100 * correct / total
         epoch_kappa = cohen_kappa_score(
-            all_labels, all_preds, weights='quadratic'
+            all_labels, all_preds, weights="quadratic"
         )
 
         loop.set_postfix(
