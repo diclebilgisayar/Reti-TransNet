@@ -182,4 +182,4 @@ else:
     # --- 6. EVALUATION ---
     print("\n📊 [3/3] Running Evaluation & Visualization...")
     get_ipython().system('python evaluate.py')
-        print("❌ Evaluation Failed.")
+    print("❌ Evaluation Failed.")
