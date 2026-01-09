@@ -128,7 +128,7 @@ Reti-TransNet/
 │
 ├── requirements.txt         # Python dependencies
 └── README.md                # Project documentation
-```text
+```
 ---
 
 ## 🚀 Quick Start on Google Colab (For Reviewers)
