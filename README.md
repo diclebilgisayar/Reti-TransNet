@@ -70,8 +70,6 @@ Reti-TransNet shows exceptional performance in identifying healthy patients (Scr
   <br><em>Fig 2: Internal ROC Curves</em>
 </p>
 
---
-
 ### 2. External Validation (IDRiD - Zero-Shot)
 Despite domain shift (different camera specifications), the model maintains high screening reliability.
 
@@ -84,7 +82,6 @@ Despite domain shift (different camera specifications), the model maintains high
   <img src="images/Figure_6.png" width="50%" alt="IDRiD ROC"/>
   <br><em>Fig 3: External ROC Curves (Zero-Shot)</em>
 </p>
-
 
 ## 🚀 Quick Start on Google Colab (For Reviewers)
 
