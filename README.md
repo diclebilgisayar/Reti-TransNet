@@ -67,7 +67,7 @@ Reti-TransNet shows exceptional performance in identifying healthy patients (Scr
 
 <p align="center">
   <img src="images/Figure_5.png" width="50%" alt="APTOS ROC"/>
-  <br><em>Internal ROC Curves</em>
+  <br><em>Fig 2: Internal ROC Curves</em>
 </p>
 
 ### 2. External Validation (IDRiD - Zero-Shot)
@@ -80,7 +80,7 @@ Despite domain shift (different camera specifications), the model maintains high
 
 <p align="center">
   <img src="images/Figure_6.png" width="50%" alt="IDRiD ROC"/>
-  <br><em>External ROC Curves (Zero-Shot)</em>
+  <br><em>Fig 3: External ROC Curves (Zero-Shot)</em>
 </p>
 
 ---
