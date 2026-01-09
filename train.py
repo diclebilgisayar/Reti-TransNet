@@ -90,15 +90,14 @@ def main():
                 g["lr"] = 5e-5
 
         running_loss = 0.0
-        correct = 0
-        total = 0
         all_preds, all_labels = [], []
 
+        # tqdm bar: dynamic_ncols ile terminal boyutuna göre ayarlanıyor
         loop = tqdm(
             loader,
             desc=f"Epoch {epoch}/25",
-            ncols=60,
-            leave=True
+            leave=True,
+            dynamic_ncols=True
         )
 
         for imgs, labels in loop:
@@ -118,30 +117,25 @@ def main():
             running_loss += loss.item()
             _, preds = torch.max(outputs, 1)
 
-            correct += (preds == labels).sum().item()
-            total += labels.size(0)
-
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
 
+            # Batch bazlı sadece loss göster
             loop.set_postfix(
-                loss=f"{running_loss / max(1, loop.n):.4f}",
-                acc=f"{100 * correct / max(1, total):.2f}%",
-                kappa="--"
+                loss=f"{running_loss / (loop.n + 1):.4f}"
             )
 
+        # Epoch sonunda kappa hesapla
         epoch_loss = running_loss / len(loader)
-        epoch_acc = 100 * correct / total
-        epoch_kappa = cohen_kappa_score(
-            all_labels, all_preds, weights="quadratic"
-        )
+        epoch_kappa = cohen_kappa_score(all_preds, all_labels, weights="quadratic")
 
+        # Bar üzerinde loss ve kappa güncelle
         loop.set_postfix(
             loss=f"{epoch_loss:.4f}",
-            acc=f"{epoch_acc:.2f}%",
             kappa=f"{epoch_kappa:.4f}"
         )
 
+        # Modeli kaydet
         torch.save(model.state_dict(), "weights/retitransnet_best.pth")
 
 
