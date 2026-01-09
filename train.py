@@ -9,7 +9,6 @@ import numpy as np
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from timm.loss import LabelSmoothingCrossEntropy
-from tqdm import tqdm
 
 from src.model import RetiTransNet
 from src.dataset import RetinopathyDataset
@@ -20,9 +19,7 @@ def main():
     seed_everything(42)
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # ===============================
     # Dataset
-    # ===============================
     csv_path = None
     for root, _, files in os.walk("dataset"):
         for f in files:
@@ -30,7 +27,7 @@ def main():
                 csv_path = os.path.join(root, f)
 
     if not csv_path:
-        print("❌ Error: Dataset not found. Run 'python download_data.py'.")
+        print("❌ Error: Dataset not found.")
         return
 
     df = pd.read_csv(csv_path)
@@ -47,9 +44,7 @@ def main():
         random_state=42,
     )
 
-    # ===============================
-    # Augmentation
-    # ===============================
+    # Augmentations
     train_tfms = A.Compose(
         [
             A.Resize(224, 224),
@@ -60,15 +55,13 @@ def main():
         ]
     )
 
-    # ===============================
-    # Weighted Sampler
-    # ===============================
+    # Weighted sampler
     targets = train_df["diagnosis"].values
     class_weights = 1.0 / np.bincount(targets)
     sample_weights = class_weights[targets]
 
     sampler = WeightedRandomSampler(
-        weights=torch.from_numpy(sample_weights),
+        torch.from_numpy(sample_weights),
         num_samples=len(sample_weights),
         replacement=True,
     )
@@ -81,27 +74,18 @@ def main():
         pin_memory=True,
     )
 
-    # ===============================
-    # Model / Optim / Loss
-    # ===============================
     model = RetiTransNet(num_classes=5).to(DEVICE)
-
     optimizer = optim.AdamW(model.parameters(), lr=1e-4)
     criterion = LabelSmoothingCrossEntropy(smoothing=0.1)
-
     scaler = torch.amp.GradScaler("cuda")
 
     os.makedirs("weights", exist_ok=True)
 
     print("🔥 Starting Training (25 Epochs)...")
 
-    # ===============================
-    # Training Loop
-    # ===============================
     for epoch in range(1, 26):
         model.train()
 
-        # Fine-tuning phase
         if epoch == 16:
             print("\n🔄 Switching to Fine-Tuning Phase (Lower LR)...")
             for g in optimizer.param_groups:
@@ -110,20 +94,11 @@ def main():
         running_loss = 0.0
         correct = 0
         total = 0
+        all_preds, all_labels = [], []
 
-        all_preds = []
-        all_labels = []
-
-        loop = tqdm(
-            train_loader,
-            desc=f"Epoch {epoch}/25",
-            leave=False,
-            dynamic_ncols=True,
-        )
-
-        for imgs, labels in loop:
-            imgs = imgs.to(DEVICE, non_blocking=True)
-            labels = labels.to(DEVICE, non_blocking=True)
+        for imgs, labels in train_loader:
+            imgs = imgs.to(DEVICE)
+            labels = labels.to(DEVICE)
 
             optimizer.zero_grad(set_to_none=True)
 
@@ -144,9 +119,6 @@ def main():
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
 
-        # ===============================
-        # Epoch Metrics
-        # ===============================
         epoch_loss = running_loss / len(train_loader)
         epoch_acc = 100.0 * correct / total
         epoch_kappa = cohen_kappa_score(
