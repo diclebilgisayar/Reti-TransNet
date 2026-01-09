@@ -26,12 +26,6 @@
   <a href="#">
 </p>
 
-
-<p align="center">
-  This repository contains the official PyTorch implementation of the paper:<br>
-  <b>"Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework with Explainability for Severity Grading of Diabetic Retinopathy"</b>.
-</p>
-
 ---
 
 ## 📌 Abstract
