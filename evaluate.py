@@ -22,11 +22,14 @@ from src.utils import seed_everything
 
 # --- KONFİGÜRASYON ---
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-WEIGHTS_PATH = "weights/retitransnet_best.pth"
+# Model ağırlıklarını kontrol et
+if os.path.exists("weights/retitransnet_best.pth"):
+    WEIGHTS_PATH = "weights/retitransnet_best.pth"
+else:
+    WEIGHTS_PATH = "weights/retitransnet_last.pth" # Yedek
+
 RESULTS_DIR = "results"
-FIGURES_DIR = "images"  # README için görseller buraya
 os.makedirs(RESULTS_DIR, exist_ok=True)
-os.makedirs(FIGURES_DIR, exist_ok=True)
 
 # Q1 Grafik Ayarları
 plt.rcParams.update({
@@ -42,12 +45,15 @@ plt.rcParams.update({
 
 # --- YARDIMCI SINIFLAR ---
 class OptimizedRounder:
+    """Optimizes thresholds to maximize Quadratic Kappa."""
     def __init__(self): self.coef_ = [0.5, 1.5, 2.5, 3.5]
     def _loss(self, coef, X, y): return -cohen_kappa_score(y, np.digitize(X, coef), weights='quadratic')
     def fit(self, X, y): self.coef_ = minimize(partial(self._loss, X=X, y=y), self.coef_, method='nelder-mead').x
-    def predict(self, X): return np.digitize(X, self.coef_)
+    def predict(self, X, coef): return np.digitize(X, coef)
+    def coefficients(self): return self.coef_
 
 def predict_tta(model, loader):
+    """Test-Time Augmentation (Original + Flip)."""
     model.eval()
     preds, labels, probs = [], [], []
     print("🔄 Running Inference (TTA)...")
@@ -58,16 +64,22 @@ def predict_tta(model, loader):
             out2 = torch.softmax(model(torch.flip(img, [3])), dim=1)
             final = (out1 + out2) / 2
             
-            preds.extend(torch.argmax(final, 1).cpu().numpy())
+            # Default Argmax prediction
+            pred = torch.argmax(final, dim=1)
+            
+            preds.extend(pred.cpu().numpy())
             labels.extend(lbl.numpy())
             probs.extend(final.cpu().numpy())
     return np.array(labels), np.array(preds), np.array(probs)
 
-# --- GRAFİK FONKSİYONLARI ---
-def plot_confusion_matrix_recall(y_true, y_pred, filename):
-    """Makale Figure 2: Recall (Satır Yüzdesi) Odaklı Confusion Matrix"""
+# --- GRAFİK FONKSİYONLARI (EKSİK OLANLAR EKLENDİ) ---
+
+def plot_confusion_matrix(y_true, y_pred, title, filename):
+    """Confusion Matrix Çizer"""
     cm = confusion_matrix(y_true, y_pred)
     cm_sum = np.sum(cm, axis=1, keepdims=True)
+    # Sıfıra bölme hatasını önle
+    cm_sum[cm_sum == 0] = 1 
     cm_perc = cm / cm_sum.astype(float) * 100
     
     annot = np.empty_like(cm).astype(str)
@@ -86,19 +98,21 @@ def plot_confusion_matrix_recall(y_true, y_pred, filename):
     
     plt.ylabel('True Severity Grade', fontweight='bold', fontsize=16)
     plt.xlabel('Predicted Severity Grade', fontweight='bold', fontsize=16)
+    plt.title(title, pad=20)
     plt.tight_layout()
-    plt.savefig(os.path.join(FIGURES_DIR, filename), dpi=300)
-    print(f"🖼️ Confusion Matrix Saved: {filename}")
+    plt.savefig(os.path.join(RESULTS_DIR, filename), dpi=300)
+    print(f"🖼️ Saved: {filename}")
     plt.close()
 
-def plot_roc(y_true, y_probs, title, filename):
-    """Makale Figure 3 & 6: ROC Eğrileri"""
+def plot_roc_curves(y_true, y_probs, title, filename):
+    """ROC Eğrilerini Çizer (Hata veren fonksiyon buydu)"""
     y_bin = label_binarize(y_true, classes=[0, 1, 2, 3, 4])
     classes = ['No DR', 'Mild', 'Moderate', 'Severe', 'Proliferative']
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd']
     
     plt.figure(figsize=(11, 9))
     for i in range(5):
+        # Sınıf var mı kontrol et
         if np.sum(y_bin[:, i]) > 0:
             fpr, tpr, _ = roc_curve(y_bin[:, i], y_probs[:, i])
             roc_auc = auc(fpr, tpr)
@@ -107,18 +121,21 @@ def plot_roc(y_true, y_probs, title, filename):
                      label=f'{classes[i]} (AUC = {roc_auc:.3f})')
             
     plt.plot([0, 1], [0, 1], 'k--', lw=2, alpha=0.6)
+    plt.xlim([-0.01, 1.0])
+    plt.ylim([0.0, 1.02])
     plt.xlabel('False Positive Rate', fontweight='bold')
     plt.ylabel('True Positive Rate', fontweight='bold')
     plt.title(title, fontweight='bold', pad=15)
     plt.legend(loc="lower right")
     plt.grid(True, linestyle=':', alpha=0.6)
     plt.tight_layout()
-    plt.savefig(os.path.join(FIGURES_DIR, filename), dpi=300)
-    print(f"🖼️ ROC Curve Saved: {filename}")
+    plt.savefig(os.path.join(RESULTS_DIR, filename), dpi=300)
+    print(f"🖼️ Saved: {filename}")
     plt.close()
 
 def generate_gradcam(model, loader, dataset_name, filename):
-    """Makale Figure 7 & 8: Grad-CAM++ Analizi"""
+    """Grad-CAM++ Görsellerini Üretir"""
+    # Modelin son konvolüsyon katmanı
     target_layers = [model.cnn.conv_head]
     cam = GradCAMPlusPlus(model=model, target_layers=target_layers)
     class_names = ['No DR', 'Mild', 'Moderate', 'Severe', 'Proliferative']
@@ -128,9 +145,14 @@ def generate_gradcam(model, loader, dataset_name, filename):
     model.eval()
     
     iterator = iter(loader)
-    while len(found_classes) < 5:
+    # Güvenlik döngüsü (Sonsuz dönmemesi için max batch sayısı)
+    max_batches = 50
+    batch_count = 0
+    
+    while len(found_classes) < 5 and batch_count < max_batches:
         try:
             inputs, labels = next(iterator)
+            batch_count += 1
         except StopIteration:
             break
             
@@ -147,10 +169,15 @@ def generate_gradcam(model, loader, dataset_name, filename):
                 found_classes[lbl] = inputs[i]
             if len(found_classes) == 5: break
     
-    # Çizim
-    if not found_classes: return
+    if not found_classes:
+        print(f"⚠️ Warning: Could not find examples for Grad-CAM in {dataset_name}")
+        return
+
     sorted_classes = sorted(found_classes.keys())
     fig, axes = plt.subplots(len(sorted_classes), 3, figsize=(10, 3 * len(sorted_classes)))
+    
+    # Tek satır varsa boyut hatasını önle
+    if len(sorted_classes) == 1: axes = np.expand_dims(axes, 0)
     
     for idx, lbl in enumerate(sorted_classes):
         img_tensor = found_classes[lbl]
@@ -168,93 +195,118 @@ def generate_gradcam(model, loader, dataset_name, filename):
         visualization = show_cam_on_image(rgb_img, grayscale_cam, use_rgb=True)
         
         # Orijinal
-        ax = axes[idx, 0] if len(sorted_classes) > 1 else axes[0]
+        ax = axes[idx, 0]
         ax.imshow(rgb_img)
         ax.set_title(f"{dataset_name}: {class_names[lbl]}", fontsize=12, fontweight='bold')
         ax.axis('off')
         
         # Heatmap
-        ax = axes[idx, 1] if len(sorted_classes) > 1 else axes[1]
+        ax = axes[idx, 1]
         ax.imshow(grayscale_cam, cmap='jet')
+        ax.set_title("Heatmap", fontsize=12)
         ax.axis('off')
         
         # Overlay
-        ax = axes[idx, 2] if len(sorted_classes) > 1 else axes[2]
+        ax = axes[idx, 2]
         ax.imshow(visualization)
+        ax.set_title("Overlay", fontsize=12)
         ax.axis('off')
         
     plt.tight_layout()
-    plt.savefig(os.path.join(FIGURES_DIR, filename), dpi=300)
-    print(f"🖼️ Grad-CAM Saved: {filename}")
+    plt.savefig(os.path.join(RESULTS_DIR, filename), dpi=300)
+    print(f"🖼️ Saved: {filename}")
     plt.close()
 
-# --- MAIN ---
+# --- MAIN EVALUATION FLOW ---
 def main():
+    print("🚀 Starting Evaluation...")
     seed_everything(42)
-    print("🚀 Starting Professional Evaluation Pipeline...")
     
-    # Model Yükle
+    # 1. Load Model
     if not os.path.exists(WEIGHTS_PATH):
-        print("❌ Model weights not found. Skipping evaluation.")
+        print(f"❌ Error: Model weights not found at {WEIGHTS_PATH}. Train the model first.")
+        return
+
+    model = RetiTransNet(num_classes=5).to(DEVICE)
+    try:
+        model.load_state_dict(torch.load(WEIGHTS_PATH, map_location=DEVICE))
+        print(f"✅ Model weights loaded from {WEIGHTS_PATH}")
+    except Exception as e:
+        print(f"❌ Error loading weights: {e}")
         return
         
-    model = RetiTransNet(num_classes=5).to(DEVICE)
-    model.load_state_dict(torch.load(WEIGHTS_PATH, map_location=DEVICE))
-    
-    val_aug = A.Compose([A.Resize(224, 224), A.Normalize(), ToTensorV2()])
+    model.eval()
 
-    # 1. APTOS (INTERNAL VALIDATION)
-    csv_path = None
-    for r, _, f in os.walk('dataset'):
+    # 2. Data Loader (Validation Only)
+    val_aug = A.Compose([
+        A.Resize(224, 224),
+        A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+        ToTensorV2()
+    ])
+    
+    # APTOS Loader
+    # CSV ve Resim klasörünü otomatik bul
+    aptos_csv = None
+    aptos_root = None
+    for r, d, f in os.walk('dataset'):
         for file in f: 
-            if file.endswith('.csv') and 'train' in file: csv_path = os.path.join(r, file)
-            
-    if csv_path:
-        print("\n--- 1. APTOS 2019 EVALUATION ---")
-        df = pd.read_csv(csv_path)
+            if file.endswith('.csv') and 'train' in file: 
+                aptos_csv = os.path.join(r, file)
+                aptos_root = r # CSV'nin olduğu yer genelde köktür veya resimler altındadır
+    
+    if aptos_csv:
+        print("\n--- INTERNAL VALIDATION (APTOS 2019) ---")
+        df = pd.read_csv(aptos_csv)
         if 'id_code' not in df.columns: df.rename(columns={df.columns[0]: 'id_code', df.columns[1]: 'diagnosis'}, inplace=True)
         
         from sklearn.model_selection import train_test_split
         _, val_df = train_test_split(df, test_size=0.2, stratify=df['diagnosis'], random_state=42)
         
-        loader = DataLoader(RetinopathyDataset(val_df, 'dataset', transform=val_aug), batch_size=16)
+        # Resim klasörü için root_dir olarak 'dataset' veriyoruz, dataset.py içindeki smart index bulacak
+        loader = DataLoader(RetinopathyDataset(val_df, 'dataset', transform=val_aug), batch_size=16, shuffle=False, num_workers=2)
         
-        y_true, y_pred_raw, y_probs = predict_tta(model, loader)
+        y_true, _, y_probs = predict_tta(model, loader)
         
-        # Optimizasyon
+        # Optimization
         print("⚙️ Optimizing Thresholds...")
         scores = np.sum(y_probs * np.arange(5), axis=1)
         rounder = OptimizedRounder()
         rounder.fit(scores, y_true)
-        y_pred_opt = rounder.predict(scores)
+        y_pred_opt = rounder.predict(scores, rounder.coefficients()) # Düzeltildi
         
         kappa = cohen_kappa_score(y_true, y_pred_opt, weights='quadratic')
-        print(f"🏆 APTOS Kappa: {kappa:.4f}")
+        acc = accuracy_score(y_true, y_pred_opt)
         
-        # APTOS İÇİN HEPSİNİ ÇİZ
-        plot_confusion_matrix_recall(y_true, y_pred_opt, "figure_4.png")
+        print(f"🏆 APTOS Kappa: {kappa:.4f}")
+        print(f"🏆 APTOS Accuracy: {acc*100:.2f}%")
+        
+        plot_confusion_matrix(y_true, y_pred_opt, "APTOS 2019 Confusion Matrix", "figure_4.png")
         plot_roc_curves(y_true, y_probs, "APTOS 2019 ROC Curves", "figure_5.png")
         generate_gradcam(model, loader, "APTOS", "figure_7.png")
 
-    # 2. IDRiD (EXTERNAL VALIDATION)
+    # IDRiD Loader
     idrid_csv = None
-    if os.path.exists('idrid_dataset/idrid_labels.csv'): idrid_csv = 'idrid_dataset/idrid_labels.csv'
+    if os.path.exists('idrid_dataset/idrid_labels.csv'): 
+        idrid_csv = 'idrid_dataset/idrid_labels.csv'
+        idrid_root = 'idrid_dataset'
     
     if idrid_csv:
-        print("\n--- 2. IDRiD EVALUATION ---")
-        df_ext = pd.read_csv(idrid_csv).iloc[:, :2]
-        loader_ext = DataLoader(RetinopathyDataset(df_ext, 'idrid_dataset', transform=val_aug), batch_size=16)
+        print("\n--- EXTERNAL VALIDATION (IDRiD) ---")
+        df_idrid = pd.read_csv(idrid_csv).iloc[:, :2]
+        df_idrid.columns = ['id_code', 'diagnosis']
         
-        y_true_e, y_pred_e, y_probs_e = predict_tta(model, loader_ext)
+        idrid_loader = DataLoader(RetinopathyDataset(df_idrid, idrid_root, transform=val_aug), 
+                                  batch_size=16, shuffle=False, num_workers=2)
         
-        kappa_e = cohen_kappa_score(y_true_e, y_pred_e, weights='quadratic')
-        print(f"🌍 IDRiD Kappa: {kappa_e:.4f}")
+        y_true_e, y_pred_e, y_probs_e = predict_tta(model, idrid_loader)
         
-        # IDRiD İÇİN SADECE GEREKLİLERİ ÇİZ (CM YOK)
-        plot_roc_curves(y_true_e, y_probs_e, "IDRiD ROC Curves", "figure_6.png")
-        generate_gradcam(model, loader_ext, "IDRiD", "figure_8.png")
+        kappa_i = cohen_kappa_score(y_true_e, y_pred_e, weights='quadratic')
+        print(f"🌍 IDRiD Kappa: {kappa_i:.4f}")
+        
+        plot_roc_curves(y_true_e, y_probs_e, "IDRiD External Validation ROC", "figure_6.png")
+        generate_gradcam(model, idrid_loader, "IDRiD", "figure_8.png")
 
-    print(f"\n✅ All results saved to '{FIGURES_DIR}/' folder.")
+    print(f"\n✅ Evaluation Complete. Results saved in '{RESULTS_DIR}/' folder.")
 
 if __name__ == "__main__":
     main()
