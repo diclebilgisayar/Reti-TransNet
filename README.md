@@ -108,23 +108,29 @@ Copy and run the following code in the first cell:
 Run the following code in the second cell. It will verify your API key and execute the automated download script for APTOS and IDRiD datasets.
 
 ```python
+# Clone the official repository and install dependencies
 !git clone https://github.com/diclebilgisayar/Reti-TransNet.git
 %cd Reti-TransNet
 !pip install -r requirements.txt
 
+
 from google.colab import files
 import os
 
-# Check and upload kaggle.json
+# Verify and upload Kaggle API credentials
+# The kaggle.json file can be obtained from:
+# Kaggle → Account → API → Create New API Token
 if not os.path.exists('kaggle.json'):
-    print("Please upload your kaggle.json file:")
+    print("Please upload your kaggle.json file to proceed:")
     files.upload()
 
-# Run the automated download script
+# Automatically download and prepare the APTOS and IDRiD datasets
 !python download_data.py
 
-# Run the automated train script
+
+# Train the proposed Reti-TransNet model
 !python train.py
 
-# Run the automated evaluate script
+
+# Evaluate the trained model using standard medical imaging metrics
 !python evaluate.py
