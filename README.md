@@ -107,6 +107,30 @@ Despite the domain shift (different camera specifications), Reti-TransNet mainta
   <br><em>Fig 8: Zero-shot robustness on IDRiD. The model correctly processes external data without fine-tuning.</em>
 </p>
 
+## 📁 Project Structure
+
+The repository is organized as follows to ensure modularity and reproducibility:
+
+```text
+Reti-TransNet/
+│
+├── src/                     # Core implementation modules
+│   ├── model.py             # Reti-TransNet architecture & Adaptive Gated Fusion logic
+│   ├── dataset.py           # Custom dataloaders with robust image indexing
+│   └── utils.py             # Helper functions (Ben Graham preprocessing, seeding)
+│
+├── weights/                 # Directory where trained model checkpoints are saved
+├── results/                 # Directory where evaluation plots (ROC, CM) are generated
+├── images/                  # Figures used in this README
+│
+├── train.py                 # Main training script (Two-stage transfer learning)
+├── evaluate.py              # Evaluation script (TTA, Threshold Optimization, Grad-CAM++)
+├── download_data.py         # Automated script to fetch datasets from Kaggle mirrors
+│
+├── requirements.txt         # List of Python dependencies
+└── README.md                # Project documentation
+
+
 ## 🚀 Quick Start on Google Colab (For Reviewers)
 
 You can reproduce our results directly on Google Colab without installing anything on your local machine.
@@ -208,25 +232,3 @@ else:
     get_ipython().system('python evaluate.py')
     print("❌ Evaluation Failed.")
 ---
-## 📁 Project Structure
-
-The repository is organized as follows to ensure modularity and reproducibility:
-
-```text
-Reti-TransNet/
-│
-├── src/                     # Core implementation modules
-│   ├── model.py             # Reti-TransNet architecture & Adaptive Gated Fusion logic
-│   ├── dataset.py           # Custom dataloaders with robust image indexing
-│   └── utils.py             # Helper functions (Ben Graham preprocessing, seeding)
-│
-├── weights/                 # Directory where trained model checkpoints are saved
-├── results/                 # Directory where evaluation plots (ROC, CM) are generated
-├── images/                  # Figures used in this README
-│
-├── train.py                 # Main training script (Two-stage transfer learning)
-├── evaluate.py              # Evaluation script (TTA, Threshold Optimization, Grad-CAM++)
-├── download_data.py         # Automated script to fetch datasets from Kaggle mirrors
-│
-├── requirements.txt         # List of Python dependencies
-└── README.md                # Project documentation
