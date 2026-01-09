@@ -98,13 +98,7 @@ def main():
             loader,
             desc=f"Epoch {epoch}/25",
             ncols=120,
-            ascii=False,
-            leave=True,
-            bar_format=(
-                "{l_bar}{bar}| {n_fmt}/{total_fmt} "
-                "[{elapsed}<{remaining}, {rate_fmt}, "
-                "loss={postfix[loss]}, acc={postfix[acc]}, kappa={postfix[kappa]}]"
-            )
+            leave=True
         )
 
         for imgs, labels in loop:
@@ -132,8 +126,7 @@ def main():
 
             loop.set_postfix(
                 loss=f"{running_loss / max(1, loop.n):.4f}",
-                acc=f"{100 * correct / max(1, total):.2f}%",
-                kappa="--"
+                acc=f"{100 * correct / max(1, total):.2f}%"
             )
 
         epoch_loss = running_loss / len(loader)
