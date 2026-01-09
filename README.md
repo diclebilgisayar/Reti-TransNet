@@ -110,7 +110,7 @@ Despite the domain shift (different camera specifications), Reti-TransNet mainta
 ## 📁 Project Structure
 
 The repository is organized to ensure **modularity, clarity, and reproducibility**:
-
+```text
 Reti-TransNet/
 │
 ├── src/                     # Core implementation modules
@@ -128,7 +128,7 @@ Reti-TransNet/
 │
 ├── requirements.txt         # Python dependencies
 └── README.md                # Project documentation
-
+```text
 ---
 
 ## 🚀 Quick Start on Google Colab (For Reviewers)
