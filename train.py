@@ -2,7 +2,7 @@ import os
 import torch
 import torch.optim as optim
 import torch.nn as nn
-from torch.utils.data import DataLoader, WeightedRandomSampler
+from torch.utils.data import DataLoader, WeightedRandomSampler, Dataset
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import cohen_kappa_score
 import pandas as pd
@@ -10,8 +10,9 @@ import numpy as np
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 from timm.loss import LabelSmoothingCrossEntropy
-from tqdm import tqdm
+import time # Süre ölçümü için
 
+# Modüler Importlar
 from src.model import RetiTransNet
 from src.dataset import RetinopathyDataset
 from src.utils import seed_everything
@@ -20,7 +21,7 @@ def main():
     seed_everything(42)
     DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
     
-    # --- 1. Veri Hazırlığı ---
+    # 1. Veri Hazırlığı
     csv_path = None
     for root, _, files in os.walk('dataset'):
         for f in files:
@@ -44,23 +45,26 @@ def main():
     loader = DataLoader(RetinopathyDataset(train_df, 'dataset', transform=aug), 
                         batch_size=16, sampler=sampler, num_workers=2)
     
-    # --- 2. Model Kurulumu ---
+    # 2. Model Kurulumu
     model = RetiTransNet(num_classes=5).to(DEVICE)
     optimizer = optim.AdamW(model.parameters(), lr=1e-4)
     criterion = LabelSmoothingCrossEntropy(smoothing=0.1)
     scaler = torch.amp.GradScaler('cuda')
     
     print(f"🔥 Starting Training on {DEVICE} (25 Epochs)...")
+    print("-" * 65) # Ayırıcı çizgi
+    print(f"{'Epoch':<10} | {'Loss':<10} | {'Accuracy':<10} | {'Kappa':<10}")
+    print("-" * 65)
+
     os.makedirs("weights", exist_ok=True)
     
-    # --- 3. Eğitim Döngüsü (Tek Satır Çıktı Modu) ---
+    # 3. Eğitim Döngüsü (Clean Log Modu)
     for epoch in range(1, 26):
         model.train()
         
-        # Fine-tuning: Sadece bilgilendirme, barı bozmaz
+        # Fine-tuning Sessiz Geçiş
         if epoch == 16:
             for g in optimizer.param_groups: g['lr'] = 5e-5
-            # print("\nℹ️ Fine-Tuning Started...") # İsterseniz bunu da kapatabilirsiniz
 
         running_loss = 0.0
         correct = 0
@@ -68,46 +72,42 @@ def main():
         all_preds = []
         all_labels = []
 
-        # TQDM'i 'with' bloğu ile açıyoruz ki kapanmadan müdahale edebilelim
-        with tqdm(loader, unit="batch") as tepoch:
-            tepoch.set_description(f"Epoch {epoch}/25")
+        # TQDM YOK - Sessiz Döngü
+        for batch_idx, (img, lbl) in enumerate(loader):
+            img, lbl = img.to(DEVICE), lbl.to(DEVICE)
             
-            for img, lbl in tepoch:
-                img, lbl = img.to(DEVICE), lbl.to(DEVICE)
-                
-                optimizer.zero_grad()
-                with torch.amp.autocast('cuda'):
-                    out = model(img)
-                    loss = criterion(out, lbl)
-                
-                scaler.scale(loss).backward()
-                scaler.step(optimizer)
-                scaler.update()
-                
-                # İstatistikler
-                running_loss += loss.item()
-                _, preds = torch.max(out, 1)
-                correct += (preds == lbl).sum().item()
-                total += lbl.size(0)
-                
-                all_preds.extend(preds.cpu().numpy())
-                all_labels.extend(lbl.cpu().numpy())
-                
-                # Anlık olarak barın sağında Loss ve Acc göster
-                tepoch.set_postfix(loss=f"{loss.item():.4f}", acc=f"{100*correct/total:.2f}%")
+            optimizer.zero_grad()
+            with torch.amp.autocast('cuda'):
+                out = model(img)
+                loss = criterion(out, lbl)
             
-            # --- EPOCH BİTTİ, TEK SATIRDA ÖZETLE ---
-            epoch_loss = running_loss / len(loader)
-            epoch_acc = 100 * correct / total
-            epoch_kappa = cohen_kappa_score(all_labels, all_preds, weights='quadratic')
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
             
-            # Barın son halini güncelle: Kappa'yı da ekle!
-            # Bu işlem yeni satır basmaz, mevcut barın sonuna yazar.
-            tepoch.set_postfix(loss=f"{epoch_loss:.4f}", acc=f"{epoch_acc:.2f}%", kappa=f"{epoch_kappa:.4f}")
+            # İstatistik
+            running_loss += loss.item()
+            _, preds = torch.max(out, 1)
+            correct += (preds == lbl).sum().item()
+            total += lbl.size(0)
             
-        # Model Kayıt
+            all_preds.extend(preds.cpu().numpy())
+            all_labels.extend(lbl.cpu().numpy())
+            
+            # Opsiyonel: Çok uzun sürüyorsa kullanıcı dondu sanmasın diye her %25'te bir nokta koyabiliriz
+            # if batch_idx % (len(loader)//4) == 0: print(".", end="", flush=True)
+            
+        # Epoch Bitti - Hesapla ve Yazdır
+        epoch_loss = running_loss / len(loader)
+        epoch_acc = 100 * correct / total
+        epoch_kappa = cohen_kappa_score(all_labels, all_preds, weights='quadratic')
+        
+        # O istediğiniz temiz format:
+        print(f"Epoch {epoch}/{25:<4} | {epoch_loss:.4f}     | {epoch_acc:.2f}%      | {epoch_kappa:.4f}")
+            
         torch.save(model.state_dict(), "weights/retitransnet_best.pth")
 
+    print("-" * 65)
     print("✅ Training Completed.")
 
 if __name__ == "__main__":
