@@ -117,72 +117,69 @@ Copy and run the following code in a Colab cell. It will handle unzipping, insta
 import os
 import sys
 
-# --- 1. UNZIP & SETUP PROJECT ---
-# Automatically find and unzip the uploaded project file
+# --- 1. UNZIP & PROJECT SETUP ---
+# Automatically find the uploaded ZIP file
 zip_files = [f for f in os.listdir() if f.endswith('.zip')]
 
 if len(zip_files) == 0:
-    print("❌ ERROR: No .zip file found! Please drag & drop the repository ZIP file here.")
+    print("❌ ERROR: No .zip file found! Please drag & drop the repository ZIP file into the file panel.")
 else:
     zip_name = zip_files[0]
     target_dir = "Reti-TransNet_Review"
 
-    print(f"📦 Extracting '{zip_name}' to '{target_dir}'...")
-    # Force unzip into a clean directory
-    os.system(f'unzip -q "{zip_name}" -d "{target_dir}"')
+    print(f"📦 Extracting '{zip_name}'...")
+    # Unzip quietly (-q) and overwrite (-o) to the target directory
+    os.system(f'unzip -q -o "{zip_name}" -d "{target_dir}"')
 
-    # Enter the directory
+    # Navigate into the extracted directory
     os.chdir(target_dir)
 
-    # Handle nested folders (if GitHub created a subfolder inside zip)
+    # Handle nested folder structure (common in GitHub downloads)
+    # If requirements.txt is not in the root, check the immediate subfolder
     if not os.path.exists('requirements.txt'):
         sub_folders = [d for d in os.listdir() if os.path.isdir(d) and not d.startswith('.')]
         if sub_folders:
             os.chdir(sub_folders[0])
-            print(f"📂 Entered sub-folder: {os.getcwd()}")
-
-    print(f"📍 Current Working Directory: {os.getcwd()}")
+            
+    print(f"📍 Working Directory: {os.getcwd()}")
 
     # --- 2. INSTALL DEPENDENCIES ---
     if os.path.exists('requirements.txt'):
         print("⚙️ Installing dependencies...")
-        os.system('pip install -r requirements.txt')
+        # Install quietly, redirecting output to /dev/null to keep the log clean
+        get_ipython().system('pip install -r requirements.txt > /dev/null')
         print("✅ Installation Complete!")
     else:
-        print("❌ CRITICAL ERROR: 'requirements.txt' not found. Check the zip file.")
+        print("❌ CRITICAL ERROR: 'requirements.txt' not found. Please check the ZIP file structure.")
         sys.exit()
 
     # --- 3. KAGGLE API SETUP ---
-    # Check if kaggle.json exists, if not, ask for upload
     if not os.path.exists('kaggle.json'):
-        print("\n📂 Please upload your 'kaggle.json' file now:")
+        print("\n📂 Please upload your 'kaggle.json' API key now:")
         from google.colab import files
         uploaded = files.upload()
-        
-        # Move kaggle.json to current directory if uploaded elsewhere
         if 'kaggle.json' in uploaded:
-             print("✅ Kaggle key uploaded.")
+             print("✅ Kaggle key uploaded successfully.")
         else:
-             print("⚠️ Warning: 'kaggle.json' not detected in upload.")
+             print("⚠️ Warning: 'kaggle.json' was not found in the uploaded files.")
 
     # --- 4. DATA PREPARATION ---
     print("\n🚀 [1/3] Downloading & Preparing Data...")
-    from download_data import download_datasets
-    download_datasets()
+    # Importing the script as a module to handle errors gracefully
+    try:
+        from download_data import download_datasets
+        download_datasets()
+    except ImportError:
+        print("❌ Error: 'download_data.py' not found.")
 
-    # --- 5. TRAINING ---
-    print("\n🔥 [2/3] Starting Training (This may take time)...")
-    # Using os.system to run as a script ensures clean memory usage
-    exit_code = os.system('python train.py')
-    if exit_code == 0:
-        print("✅ Training Finished.")
-    else:
-        print("❌ Training Failed.")
+    # --- 5. TRAINING (REAL-TIME MONITORING) ---
+    print("\n🔥 [2/3] Starting Training...")
+    print("    (Real-time Loss and Accuracy updates will appear below)\n")
+    
+    # Using get_ipython().system ensures the progress bar (tqdm) renders correctly in Colab
+    get_ipython().system('python train.py')
 
     # --- 6. EVALUATION ---
-    print("\n📊 [3/3] Running Evaluation & Generating Plots...")
-    exit_code = os.system('python evaluate.py')
-    if exit_code == 0:
-        print("✅ Evaluation Finished! Check 'results/' folder for figures.")
-    else:
+    print("\n📊 [3/3] Running Evaluation & Visualization...")
+    get_ipython().system('python evaluate.py')
         print("❌ Evaluation Failed.")
