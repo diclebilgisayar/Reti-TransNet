@@ -109,9 +109,6 @@ Open a new Colab Notebook:
 The following steps will clone the official repository, install required dependencies, verify your Kaggle API credentials, automatically download the APTOS 2019 and IDRiD datasets, train the Reti-TransNet model, and evaluate its performance using standard medical imaging metrics.
 
 ```python
-# Step 1: Clone the repository and install dependencies
-
-```python
 # Clone the official repository and install dependencies
 !git clone https://github.com/diclebilgisayar/Reti-TransNet.git
 %cd Reti-TransNet
