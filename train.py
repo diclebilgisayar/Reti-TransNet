@@ -1,4 +1,3 @@
-%%writefile Reti-TransNet/train.py
 import os
 import torch
 import torch.optim as optim
