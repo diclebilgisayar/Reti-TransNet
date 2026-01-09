@@ -55,7 +55,7 @@ def main():
         
         # Fine-tuning mesajı
         if epoch == 16:
-            print("\\n🔄 Switching to Fine-Tuning Phase (Lower LR)...")
+            print("\🔄 Switching to Fine-Tuning Phase (Lower LR)...")
             for g in optimizer.param_groups: g['lr'] = 5e-5
 
         running_loss = 0.0
