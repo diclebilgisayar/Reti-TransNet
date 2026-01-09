@@ -99,7 +99,7 @@ def main():
         loop = tqdm(
             loader,
             desc=f"Epoch {epoch}/25",
-            ncols=100, # Bar genişliği
+            ncols=75, # Bar genişliği
             leave=True # Biten satırı ekranda bırak
         )
 
