@@ -92,12 +92,11 @@ def main():
         running_loss = 0.0
         all_preds, all_labels = [], []
 
-        # tqdm bar: dynamic_ncols ile terminal boyutuna göre ayarlanıyor
         loop = tqdm(
             loader,
             desc=f"Epoch {epoch}/25",
-            leave=True,
-            dynamic_ncols=True
+            ncols=90,
+            leave=True
         )
 
         for imgs, labels in loop:
@@ -120,14 +119,15 @@ def main():
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
 
-            # Batch bazlı sadece loss göster
+            # Batch bazlı loss göster, kappa placeholder
             loop.set_postfix(
-                loss=f"{running_loss / (loop.n + 1):.4f}"
+                loss=f"{running_loss / (loop.n + 1):.4f}",
+                kappa="--"
             )
 
         # Epoch sonunda kappa hesapla
         epoch_loss = running_loss / len(loader)
-        epoch_kappa = cohen_kappa_score(all_preds, all_labels, weights="quadratic")
+        epoch_kappa = cohen_kappa_score(all_labels, all_preds, weights="quadratic")
 
         # Bar üzerinde loss ve kappa güncelle
         loop.set_postfix(
