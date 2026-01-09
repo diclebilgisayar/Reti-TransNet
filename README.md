@@ -1,10 +1,23 @@
 # 👁️ Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading
 
 <p align="center">
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
-  <a href="https://pytorch.org/"><img src="https://img.shields.io/badge/Framework-PyTorch-orange.svg" alt="PyTorch"></a>
-  <a href="https://www.kaggle.com/c/aptos2019-blindness-detection"><img src="https://img.shields.io/badge/Task-Medical%20Imaging-blue.svg" alt="Task"></a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+  </a>
+  <a href="https://www.python.org/">
+    <img src="https://img.shields.io/badge/Python-3.8+-3776AB.svg?logo=python&logoColor=white" alt="Python">
+  </a>
+  <a href="https://pytorch.org/">
+    <img src="https://img.shields.io/badge/Framework-PyTorch-orange.svg?logo=pytorch&logoColor=white" alt="PyTorch">
+  </a>
+  <a href="https://www.kaggle.com/c/aptos2019-blindness-detection">
+    <img src="https://img.shields.io/badge/Dataset-Kaggle-20BEFF.svg?logo=kaggle&logoColor=white" alt="Kaggle Dataset">
+  </a>
+  <a href="https://www.kaggle.com/c/aptos2019-blindness-detection">
+    <img src="https://img.shields.io/badge/Task-Medical%20Imaging-blue.svg" alt="Task">
+  </a>
 </p>
+
 
 <p align="center">
   This repository contains the official PyTorch implementation of the paper:<br>
@@ -51,9 +64,8 @@ Reti-TransNet shows exceptional performance in identifying healthy patients (Scr
 | **AUC (No DR)** | **0.997** |
 
 <p align="center">
-  <img src="images/Figure4_ConfusionMatrix_DualLabel.png" width="45%" alt="Confusion Matrix"/>
-  <img src="images/Figure5_APTOS_ROC_HighRes.png" width="45%" alt="APTOS ROC"/>
-  <br><em>Left: Confusion Matrix | Right: Internal ROC Curves</em>
+  <img src="images/Figure_5.png" width="75%" alt="APTOS ROC"/>
+  <br><em>Internal ROC Curves</em>
 </p>
 
 ### 2. External Validation (IDRiD - Zero-Shot)
@@ -65,8 +77,8 @@ Despite domain shift (different camera specifications), the model maintains high
 | **Kappa ($\kappa$)** | **0.77** |
 
 <p align="center">
-  <img src="images/Figure6_IDRiD_ROC_HighRes.png" width="60%" alt="IDRiD ROC"/>
-  <br><em>External Validation ROC Curves (Zero-Shot)</em>
+  <img src="images/Figure_6.png" width="75%" alt="IDRiD ROC"/>
+  <br><em>External ROC Curves (Zero-Shot)</em>
 </p>
 
 ---
@@ -109,8 +121,8 @@ if not os.path.exists('kaggle.json'):
 # Run the automated download script
 !python download_data.py
 
-# Run the automated download script
+# Run the automated train script
 !python train.py
 
-# Run the automated download script
+# Run the automated evaluate script
 !python evaluate.py
