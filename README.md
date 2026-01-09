@@ -83,24 +83,28 @@ Despite domain shift (different camera specifications), the model maintains high
   <br><em>Fig 3: External ROC Curves (Zero-Shot)</em>
 </p>
 
-## 🔍 Explainability & Qualitative Analysis
+## 🔍 Explainability (Grad-CAM++)
 
-To address the "black-box" nature of deep learning, we utilized **Grad-CAM++** to visualize the decision-making process. These visualizations confirm that **Reti-TransNet** learns semantically meaningful biomarkers rather than overfitting to dataset artifacts.
+We utilize **Grad-CAM++** to ensure the model focuses on clinically relevant features rather than artifacts. The visualizations below confirm the model's reliability in distinguishing healthy eyes from early-stage disease.
 
 ### 1. Internal Validation (APTOS 2019)
-The model accurately localizes key pathological features such as **hard exudates** (Moderate DR) and **neovascularization** (Proliferative DR). Importantly, for **No DR** cases, the attention is diffusely spread, confirming that the model does not hallucinate lesions in healthy eyes.
+The model demonstrates precise localization of early pathological signs.
+*   **Class: No DR:** The attention map is diffusely distributed across the retina, confirming the absence of focal lesions.
+*   **Class: Mild:** The model accurately highlights subtle microaneurysms near the macula, which are critical for early detection.
 
 <p align="center">
   <img src="images/figure_7.png" width="85%" alt="APTOS Grad-CAM Analysis">
-  <br><em>Fig 7: Grad-CAM++ visualizations on APTOS 2019. Green text indicates correct predictions.</em>
+  <br><em>Fig 7: Qualitative analysis on APTOS 2019 dataset showing correct attention for No DR and Mild stages.</em>
 </p>
 
 ### 2. External Generalization (IDRiD)
-Despite the domain shift (different camera specifications and population), the model maintains consistent semantic focus on the external **IDRiD** dataset without any fine-tuning.
+Despite the domain shift (different camera specifications), Reti-TransNet maintains semantic consistency on the external dataset.
+*   **IDRiD - No DR:** Similar to the internal set, the attention remains diffuse, validating the model's robust screening capability (AUC 0.958).
+*   **IDRiD - Mild:** The model successfully identifies early-stage biomarkers even in images with different lighting conditions.
 
 <p align="center">
   <img src="images/figure_8.png" width="85%" alt="IDRiD Grad-CAM Analysis">
-  <br><em>Fig 8: Zero-shot robustness on IDRiD. The model correctly identifies the optic disc and vascular arcades in Proliferative cases.</em>
+  <br><em>Fig 8: Zero-shot robustness on IDRiD. The model correctly processes external data without fine-tuning.</em>
 </p>
 
 ## 🚀 Quick Start on Google Colab (For Reviewers)
