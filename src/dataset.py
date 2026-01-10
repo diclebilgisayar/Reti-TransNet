@@ -4,7 +4,6 @@ import torch
 import pandas as pd
 import numpy as np
 from torch.utils.data import Dataset
-# DÜZELTME BURADA: 'from utils' YERİNE 'from src.utils'
 from src.utils import ben_graham_preprocessing
 
 class RetinopathyDataset(Dataset):
@@ -25,9 +24,8 @@ class RetinopathyDataset(Dataset):
         return len(self.df)
 
     def __getitem__(self, idx):
-        row = self.df.iloc[idx]  # Pozisyon ile satırı alıyoruz
+        row = self.df.iloc[idx]
     
-        # ✅ Sütun isimleri ile erişim
         img_id = str(row["id_code"])
         img_path = self.image_map.get(img_id, None)
     
