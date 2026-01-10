@@ -216,3 +216,5 @@ else:
     print("="*40)
     get_ipython().system('python evaluate.py')
     print("="*40)
+---
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/<1zewEue9U-N8-s_noMy-vq7CO1rwS9Ass>)
