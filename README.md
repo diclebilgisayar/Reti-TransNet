@@ -74,9 +74,9 @@ Despite domain shift (different camera specifications), the model maintains high
 
 | Metric | Result |
 | :--- | :--- |
-| **AUC (No DR)** | **0.963** |
 | **Kappa ($\kappa$)** | **0.7723** |
 | **Accuracy** | **59.12%** |
+| **AUC (No DR)** | **0.963** |
 
 <p align="center">
   <img src="images/Figure_6.png" width="50%" alt="IDRiD ROC"/>
