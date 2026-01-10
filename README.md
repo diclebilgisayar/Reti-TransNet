@@ -164,41 +164,34 @@ Copy and run the following code in a Colab cell. It will handle unzipping, insta
 ```python
 import os
 import sys
+from IPython.display import clear_output # Ekranı temizlemek için gerekli
 
 # --- 1. UNZIP & PROJECT SETUP ---
-# Automatically find the uploaded ZIP file
 zip_files = [f for f in os.listdir() if f.endswith('.zip')]
 
 if len(zip_files) == 0:
-    print("❌ ERROR: No .zip file found! Please drag & drop the repository ZIP file into the file panel.")
+    print("❌ ERROR: No .zip file found! Please drag & drop the repository ZIP file.")
 else:
     zip_name = zip_files[0]
     target_dir = "Reti-TransNet_Review"
-
-    print(f"📦 Extracting '{zip_name}'...")
-    # Unzip quietly (-q) and overwrite (-o) to the target directory
+    
+    # Sessizce aç
     os.system(f'unzip -q -o "{zip_name}" -d "{target_dir}"')
-
-    # Navigate into the extracted directory
     os.chdir(target_dir)
 
-    # Handle nested folder structure (common in GitHub downloads)
-    # If requirements.txt is not in the root, check the immediate subfolder
+    # İç klasör kontrolü
     if not os.path.exists('requirements.txt'):
         sub_folders = [d for d in os.listdir() if os.path.isdir(d) and not d.startswith('.')]
-        if sub_folders:
-            os.chdir(sub_folders[0])
+        if sub_folders: os.chdir(sub_folders[0])
             
-    print(f"📍 Working Directory: {os.getcwd()}")
+    print(f"📍 Setup Complete. Working Directory: {os.getcwd()}")
 
-    # --- 2. INSTALL DEPENDENCIES ---
+    # --- 2. INSTALL DEPENDENCIES (Sessiz) ---
     if os.path.exists('requirements.txt'):
-        print("⚙️ Installing dependencies...")
-        # Install quietly, redirecting output to /dev/null to keep the log clean
+        print("⚙️ Installing dependencies (this may take a minute)...")
         get_ipython().system('pip install -r requirements.txt > /dev/null')
-        print("✅ Installation Complete!")
     else:
-        print("❌ CRITICAL ERROR: 'requirements.txt' not found. Please check the ZIP file structure.")
+        print("❌ CRITICAL ERROR: 'requirements.txt' not found.")
         sys.exit()
 
     # --- 3. KAGGLE API SETUP ---
@@ -206,33 +199,32 @@ else:
         print("\n📂 Please upload your 'kaggle.json' API key now:")
         from google.colab import files
         uploaded = files.upload()
-        if 'kaggle.json' in uploaded:
-             print("✅ Kaggle key uploaded successfully.")
-        else:
-             print("⚠️ Warning: 'kaggle.json' was not found in the uploaded files.")
+        if 'kaggle.json' not in uploaded: print("⚠️ Warning: 'kaggle.json' not found.")
 
     # --- 4. DATA PREPARATION ---
-    print("\n🚀 [1/3] Downloading & Preparing Data...")
-    # Importing the script as a module to handle errors gracefully
+    print("\n🚀 [1/3] Downloading Data...")
     try:
         from download_data import download_datasets
         download_datasets()
-    except ImportError:
-        print("❌ Error: 'download_data.py' not found.")
+    except ImportError: print("❌ Error: 'download_data.py' not found.")
 
-    # --- 5. TRAINING (REAL-TIME MONITORING) ---
-    print("\n🔥 [2/3] Starting Training...")
-    print("    (Real-time Loss and Accuracy updates will appear below)\n")
+    # --- 5. TRAINING (Eğitim) ---
+    print("\n🔥 [2/3] Starting Training (25 Epochs)...")
+    print("    Please wait while the model trains...")
     
-    # Using get_ipython().system ensures the progress bar (tqdm) renders correctly in Colab
+    # Eğitimi başlat
     get_ipython().system('python train.py')
 
-    # --- 6. EVALUATION ---
-    print("\n📊 [3/3] Running Evaluation & Visualization...")
-    ret = get_ipython().system('python evaluate.py')
+    # --- SİHİRLİ DOKUNUŞ: EKRANI TEMİZLE ---
+    # Eğitim bitince kalabalık yazıları siler, sadece sonucu bırakır.
+    clear_output(wait=True)
+    
+    print("✅ Training Finished Successfully!")
+    print("✅ All checkpoints saved.")
 
-    if ret != 0:
-      print("❌ Evaluation Failed.")
-    else:
-      print("✅ Evaluation Succeeded.")
+    # --- 6. EVALUATION (Sadece Bu Görünecek) ---
+    print("\n📊 [3/3] FINAL EVALUATION REPORT")
+    print("="*40)
+    get_ipython().system('python evaluate.py')
+    print("="*40)
 
