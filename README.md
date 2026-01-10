@@ -62,7 +62,6 @@ Reti-TransNet shows exceptional performance in identifying healthy patients (Scr
 | :--- | :--- |
 | **Quadratic Kappa ($\kappa$)** | **0.905** (0.88 - 0.93) |
 | **Accuracy** | **84.31%** |
-| **No DR Recall** | **98%** |
 | **AUC (No DR)** | **0.998** |
 
 <p align="center">
