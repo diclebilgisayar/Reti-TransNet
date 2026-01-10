@@ -1,4 +1,3 @@
-
 import os
 import zipfile
 import sys
@@ -11,7 +10,6 @@ def download_datasets():
     os.makedirs('dataset', exist_ok=True)
     os.makedirs('idrid_dataset', exist_ok=True)
 
-    # Kaggle API Kontrolü
     if not os.path.exists('kaggle.json'):
         print("🔍 'kaggle.json' not found.")
         if 'google.colab' in sys.modules:
@@ -25,7 +23,6 @@ def download_datasets():
             print("❌ Please place 'kaggle.json' in this folder.")
             return
 
-    # API Ayarları
     os.environ['KAGGLE_CONFIG_DIR'] = os.getcwd()
     os.system('chmod 600 kaggle.json')
 
