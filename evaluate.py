@@ -15,23 +15,20 @@ from pytorch_grad_cam import GradCAMPlusPlus
 from pytorch_grad_cam.utils.image import show_cam_on_image
 import cv2
 
-# Modüler Importlar
 from src.model import RetiTransNet
 from src.dataset import RetinopathyDataset
 from src.utils import seed_everything
 
-# --- KONFİGÜRASYON ---
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 # Model ağırlıklarını kontrol et
 if os.path.exists("weights/retitransnet_best.pth"):
     WEIGHTS_PATH = "weights/retitransnet_best.pth"
 else:
-    WEIGHTS_PATH = "weights/retitransnet_last.pth" # Yedek
-
+    WEIGHTS_PATH = "weights/retitransnet_last.pth" 
+    
 RESULTS_DIR = "results"
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
-# Q1 Grafik Ayarları
 plt.rcParams.update({
     'font.family': 'serif',
     'font.size': 14,
@@ -43,7 +40,6 @@ plt.rcParams.update({
     'lines.linewidth': 3
 })
 
-# --- YARDIMCI SINIFLAR ---
 class OptimizedRounder:
     """Optimizes thresholds to maximize Quadratic Kappa."""
     def __init__(self): self.coef_ = [0.5, 1.5, 2.5, 3.5]
@@ -71,8 +67,6 @@ def predict_tta(model, loader):
             labels.extend(lbl.numpy())
             probs.extend(final.cpu().numpy())
     return np.array(labels), np.array(preds), np.array(probs)
-
-# --- GRAFİK FONKSİYONLARI (EKSİK OLANLAR EKLENDİ) ---
 
 def plot_confusion_matrix(y_true, y_pred, title, filename):
     """Confusion Matrix Çizer"""
@@ -134,18 +128,14 @@ def plot_roc_curves(y_true, y_probs, title, filename):
     plt.close()
 
 def generate_gradcam(model, loader, dataset_name, filename):
-    """Grad-CAM++ Görsellerini Üretir"""
-    # Modelin son konvolüsyon katmanı
     target_layers = [model.cnn.conv_head]
     cam = GradCAMPlusPlus(model=model, target_layers=target_layers)
     class_names = ['No DR', 'Mild', 'Moderate', 'Severe', 'Proliferative']
     
-    # Her sınıftan 1 doğru örnek bul
     found_classes = {}
     model.eval()
     
     iterator = iter(loader)
-    # Güvenlik döngüsü (Sonsuz dönmemesi için max batch sayısı)
     max_batches = 50
     batch_count = 0
     
@@ -176,7 +166,6 @@ def generate_gradcam(model, loader, dataset_name, filename):
     sorted_classes = sorted(found_classes.keys())
     fig, axes = plt.subplots(len(sorted_classes), 3, figsize=(10, 3 * len(sorted_classes)))
     
-    # Tek satır varsa boyut hatasını önle
     if len(sorted_classes) == 1: axes = np.expand_dims(axes, 0)
     
     for idx, lbl in enumerate(sorted_classes):
@@ -245,7 +234,6 @@ def main():
     ])
     
     # APTOS Loader
-    # CSV ve Resim klasörünü otomatik bul
     aptos_csv = None
     aptos_root = None
     for r, d, f in os.walk('dataset'):
