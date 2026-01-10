@@ -153,7 +153,7 @@ Open a new Colab Notebook:
 You can reproduce the entire study (Setup -> Data -> Train -> Evaluate) by running a single code block.
 
 ### Prerequisites
-1.  **Download this Repository: Download the ZIP archive using the Download Repository button provided at the top of the Anonymize page.
+1.  **Download this Repository:** Download the ZIP archive using the Download Repository button provided at the top of the Anonymize page.
 2.  **Get Kaggle API Key:** Have your `kaggle.json` file ready.
 3.  **Open Colab:** Go to [Google Colab](https://colab.research.google.com/) and create a new notebook.
 4.  **Upload ZIP:** Drag and drop the `Reti-TransNet-main.zip` file into the Colab file panel (left side).
