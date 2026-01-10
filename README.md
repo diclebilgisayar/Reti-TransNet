@@ -136,28 +136,20 @@ Reti-TransNet/
 You can reproduce our results directly on Google Colab without installing anything on your local machine.
 
 ### 📝 Prerequisites
-1.  **👤 Google Account:** To access Colab.
-2.  **🔑 Kaggle API Key (`kaggle.json`):** Required to download datasets automatically. [Get it here](https://www.kaggle.com/account).
+1. **👤 Google Account:** Required to access Google Colab.  
+2. **Download this Repository:** Download the ZIP archive using the **Download Repository** button provided at the top of the Anonymize page.  
+3. **Open Colab:** Go to [Google Colab](https://colab.research.google.com/) and create a new notebook.  
+4. **Upload ZIP:** Drag and drop the `Reti-TransNet-main.zip` file into the Colab file panel (left side).  
+5. **🔑 Kaggle API Key (`kaggle.json`):** Required for automatic dataset download. Have your file ready.
 
 ---
 
 ### 🛠 Step-by-Step Instructions
 
-Open a new Colab Notebook:
-- Go to [Google Colab](https://colab.research.google.com/).  
-- Click **New Notebook**.  
-- **⚠️ Important:** Go to `Runtime` → `Change runtime type` → Select **T4 GPU**.
+1. Open your Colab Notebook.  
+2. **⚠️ Important:** Go to `Runtime` → `Change runtime type` → Select **T4 GPU**.  
+3. You can reproduce the entire study (Setup → Data → Train → Evaluate) by running a single code block.
 
----
-
-You can reproduce the entire study (Setup -> Data -> Train -> Evaluate) by running a single code block.
-
-### Prerequisites
-
-1. **Download this Repository:** Download the ZIP archive using the **Download Repository** button provided at the top of the Anonymize page.  
-2. **Open Colab:** Go to [Google Colab](https://colab.research.google.com/) and create a new notebook.  
-3. **Upload ZIP:** Drag and drop the `Reti-TransNet-main.zip` file into the Colab file panel (left side).  
-4. **Get Kaggle API Key:** Have your `kaggle.json` file ready for automatic dataset download.
 
 ### ⚡ Run Everything
 Copy and run the following code in a Colab cell. It will handle unzipping, installation, data download, training, and evaluation automatically.
