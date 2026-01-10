@@ -33,8 +33,8 @@
 Diabetic Retinopathy (DR) requires precise detection of both minute local lesions and global structural distortions. **Reti-TransNet** is a novel hybrid framework that synergizes the local feature extraction capability of **EfficientNet-B0** with the global context modeling power of **Swin Transformer**. Unlike trivial concatenation strategies, we introduce a learnable **"Adaptive Gated Fusion"** mechanism to dynamically weight the importance of local versus global features based on image complexity.
 
 ### 🔑 Key Achievements
-*   🏆 **State-of-the-Art Reliability:** Achieved a **Quadratic Weighted Kappa of 0.90** on the internal APTOS 2019 dataset.
-*   🌍 **Robust Generalization:** Demonstrated strong zero-shot performance on the external **IDRiD** dataset (**AUC 0.958** for screening healthy patients).
+*   🏆 **State-of-the-Art Reliability:** Achieved a **Quadratic Weighted Kappa of 0.905** on the internal APTOS 2019 dataset.
+*   🌍 **Robust Generalization:** Demonstrated strong zero-shot performance on the external **IDRiD** dataset (**AUC 0.963** for screening healthy patients).
 *   🔍 **Explainability:** Integrated **Grad-CAM++** ensures clinical transparency by localizing pathological biomarkers.
 *   ⚡ **Efficiency:** Trained in just **25 epochs** on a single NVIDIA Tesla T4 GPU, highlighting computational efficiency.
 
@@ -60,10 +60,10 @@ Reti-TransNet shows exceptional performance in identifying healthy patients (Scr
 
 | Metric | Result (95% CI) |
 | :--- | :--- |
-| **Quadratic Kappa ($\kappa$)** | **0.90** (0.88 - 0.92) |
+| **Quadratic Kappa ($\kappa$)** | **0.905** (0.88 - 0.93) |
 | **Accuracy** | **84.31%** |
 | **No DR Recall** | **98%** |
-| **AUC (No DR)** | **0.997** |
+| **AUC (No DR)** | **0.998** |
 
 <p align="center">
   <img src="images/Figure_5.png" width="50%" alt="APTOS ROC"/>
@@ -75,7 +75,7 @@ Despite domain shift (different camera specifications), the model maintains high
 
 | Metric | Result |
 | :--- | :--- |
-| **AUC (No DR)** | **0.958** |
+| **AUC (No DR)** | **0.963** |
 | **Kappa ($\kappa$)** | **0.77** |
 
 <p align="center">
