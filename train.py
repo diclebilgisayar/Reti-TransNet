@@ -14,10 +14,6 @@ from src.model import RetiTransNet
 from src.dataset import RetinopathyDataset
 from src.utils import seed_everything
 
-
-# ===============================
-# Tek Satırlık Progress Bar
-# ===============================
 def render_bar(epoch, total_epochs, batch_idx, total_batches, bar_len=25):
     progress = (batch_idx + 1) / total_batches
     filled = int(bar_len * progress)
@@ -151,9 +147,6 @@ def main():
             )
             sys.stdout.flush()
 
-        # ===============================
-        # Epoch Sonu (AYNI SATIRDA)
-        # ===============================
         epoch_loss = running_loss / total_batches
         epoch_acc = 100.0 * correct / total
 
