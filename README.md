@@ -179,14 +179,13 @@ else:
     os.system(f'unzip -q -o "{zip_name}" -d "{target_dir}"')
     os.chdir(target_dir)
 
-    # İç klasör kontrolü
     if not os.path.exists('requirements.txt'):
         sub_folders = [d for d in os.listdir() if os.path.isdir(d) and not d.startswith('.')]
         if sub_folders: os.chdir(sub_folders[0])
             
     print(f"📍 Setup Complete. Working Directory: {os.getcwd()}")
 
-    # --- 2. INSTALL DEPENDENCIES (Sessiz) ---
+    # --- 2. INSTALL DEPENDENCIES ---
     if os.path.exists('requirements.txt'):
         print("⚙️ Installing dependencies (this may take a minute)...")
         get_ipython().system('pip install -r requirements.txt > /dev/null')
@@ -208,23 +207,19 @@ else:
         download_datasets()
     except ImportError: print("❌ Error: 'download_data.py' not found.")
 
-    # --- 5. TRAINING (Eğitim) ---
+    # --- 5. TRAINING ---
     print("\n🔥 [2/3] Starting Training (25 Epochs)...")
     print("    Please wait while the model trains...")
     
-    # Eğitimi başlat
     get_ipython().system('python train.py')
 
-    # --- SİHİRLİ DOKUNUŞ: EKRANI TEMİZLE ---
-    # Eğitim bitince kalabalık yazıları siler, sadece sonucu bırakır.
     clear_output(wait=True)
     
     print("✅ Training Finished Successfully!")
     print("✅ All checkpoints saved.")
 
-    # --- 6. EVALUATION (Sadece Bu Görünecek) ---
+    # --- 6. EVALUATION ---
     print("\n📊 [3/3] FINAL EVALUATION REPORT")
     print("="*40)
     get_ipython().system('python evaluate.py')
     print("="*40)
-
