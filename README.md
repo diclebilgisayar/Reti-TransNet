@@ -2,8 +2,6 @@
 👁️ Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading
 </h1>
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1zewEue9U-N8-s_noMy-vq7CO1rwS9Ass)
-
 <p align="center">
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
@@ -26,6 +24,20 @@
   <img src="https://img.shields.io/badge/Metric-F1--Score-success.svg" alt="Metric">
   <a href="#">
 </p>
+
+---
+## 🚀 Quick Start on Google Colab (One-Click Reproduction)
+
+You can reproduce the entire study (Setup $\to$ Training $\to$ Evaluation) directly in your browser without any manual file handling.
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1zewEue9U-N8-s_noMy-vq7CO1rwS9Ass)
+
+### 🛠️ Instructions for Reviewers
+
+1.  **Click the Badge:** Click the **"Open in Colab"** button above to launch the pre-configured notebook.
+2.  **Run the Script:** Execute the code cell. The script will automatically fetch the repository and dependencies.
+3.  **Upload Key:** When prompted by the script, upload your **`kaggle.json`** API key to download the datasets.
+4.  **View Results:** The system will automatically train the model and display the final metrics (Kappa, AUC) and Grad-CAM++ figures.
 
 ---
 
@@ -131,88 +143,3 @@ Reti-TransNet/
 └── README.md                # Project documentation
 ```
 ---
-
-## 🚀 Quick Start on Google Colab (For Reviewers)
-
-You can reproduce our results directly on Google Colab without installing anything on your local machine.
-
-### 📝 Prerequisites
-1. **👤 Google Account:** Required to access Google Colab.  
-2. **Download this Repository:** Download the ZIP archive using the **Download Repository** button provided at the top of the Anonymize page.  
-3. **Open Colab:** Go to [Google Colab](https://colab.research.google.com/) and create a new notebook.  
-4. **Upload ZIP:** Drag and drop the `Reti-TransNet-main.zip` file into the Colab file panel (left side).  
-5. **🔑 Kaggle API Key (`kaggle.json`):** Required for automatic dataset download. Have your file ready.
-
----
-
-### 🛠 Step-by-Step Instructions
-
-1. Open your Colab Notebook.  
-2. **⚠️ Important:** Go to `Runtime` → `Change runtime type` → Select **T4 GPU**.  
-3. You can reproduce the entire study (Setup → Data → Train → Evaluate) by running a single code block.
-
-### ⚡ Run Everything
-Copy and run the following code in a Colab cell. It will handle unzipping, installation, data download, training, and evaluation automatically.
-
-```python
-import os
-import sys
-from IPython.display import clear_output # Ekranı temizlemek için gerekli
-
-# --- 1. UNZIP & PROJECT SETUP ---
-zip_files = [f for f in os.listdir() if f.endswith('.zip')]
-
-if len(zip_files) == 0:
-    print("❌ ERROR: No .zip file found! Please drag & drop the repository ZIP file.")
-else:
-    zip_name = zip_files[0]
-    target_dir = "Reti-TransNet_Review"
-    
-    # Sessizce aç
-    os.system(f'unzip -q -o "{zip_name}" -d "{target_dir}"')
-    os.chdir(target_dir)
-
-    if not os.path.exists('requirements.txt'):
-        sub_folders = [d for d in os.listdir() if os.path.isdir(d) and not d.startswith('.')]
-        if sub_folders: os.chdir(sub_folders[0])
-            
-    print(f"📍 Setup Complete. Working Directory: {os.getcwd()}")
-
-    # --- 2. INSTALL DEPENDENCIES ---
-    if os.path.exists('requirements.txt'):
-        print("⚙️ Installing dependencies (this may take a minute)...")
-        get_ipython().system('pip install -r requirements.txt > /dev/null')
-    else:
-        print("❌ CRITICAL ERROR: 'requirements.txt' not found.")
-        sys.exit()
-
-    # --- 3. KAGGLE API SETUP ---
-    if not os.path.exists('kaggle.json'):
-        print("\n📂 Please upload your 'kaggle.json' API key now:")
-        from google.colab import files
-        uploaded = files.upload()
-        if 'kaggle.json' not in uploaded: print("⚠️ Warning: 'kaggle.json' not found.")
-
-    # --- 4. DATA PREPARATION ---
-    print("\n🚀 [1/3] Downloading Data...")
-    try:
-        from download_data import download_datasets
-        download_datasets()
-    except ImportError: print("❌ Error: 'download_data.py' not found.")
-
-    # --- 5. TRAINING ---
-    print("\n🔥 [2/3] Starting Training (25 Epochs)...")
-    print("    Please wait while the model trains...")
-    
-    get_ipython().system('python train.py')
-
-    clear_output(wait=True)
-    
-    print("✅ Training Finished Successfully!")
-    print("✅ All checkpoints saved.")
-
-    # --- 6. EVALUATION ---
-    print("\n📊 [3/3] FINAL EVALUATION REPORT")
-    print("="*40)
-    get_ipython().system('python evaluate.py')
-    print("="*40)
