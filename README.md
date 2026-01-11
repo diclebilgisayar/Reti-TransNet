@@ -3,26 +3,24 @@
 </h1>
 
 <p align="center">
+  <!-- 1. Lisans -->
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
   </a>
+  <!-- 2. Python Sürümü -->
   <a href="https://www.python.org/">
     <img src="https://img.shields.io/badge/Python-3.8+-3776AB.svg?logo=python&logoColor=white" alt="Python">
   </a>
+  <!-- 3. Framework -->
   <a href="https://pytorch.org/">
     <img src="https://img.shields.io/badge/Framework-PyTorch-orange.svg?logo=pytorch&logoColor=white" alt="PyTorch">
   </a>
+  <!-- 4. Dataset Linki -->
   <a href="https://www.kaggle.com/c/aptos2019-blindness-detection">
-    <img src="https://img.shields.io/badge/Dataset-Kaggle-20BEFF.svg?logo=kaggle&logoColor=white" alt="Kaggle Dataset">
+    <img src="https://img.shields.io/badge/Dataset-Kaggle-20BEFF.svg?logo=kaggle&logoColor=white" alt="Kaggle">
   </a>
-  <a href="https://www.kaggle.com/c/aptos2019-blindness-detection">
-    <img src="https://img.shields.io/badge/Task-Medical%20Imaging-blue.svg" alt="Task">
-  </a>
-  </a>
-  <img src="https://img.shields.io/badge/Model-CNN-green.svg" alt="CNN">
-  <img src="https://img.shields.io/badge/Model-Vision%20Transformer-purple.svg" alt="Vision Transformer">
-  <img src="https://img.shields.io/badge/Metric-F1--Score-success.svg" alt="Metric">
-  <a href="#">
+  <!-- 5. Makale Durumu (İsteğe Bağlı ama Şık) -->
+  <img src="https://img.shields.io/badge/Paper-Submitted-green.svg" alt="Paper Status">
 </p>
 
 ---
