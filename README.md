@@ -2,6 +2,7 @@
 👁️ Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading
 </h1>
 
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1zewEue9U-N8-s_noMy-vq7CO1rwS9Ass)
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT">
@@ -149,8 +150,6 @@ You can reproduce our results directly on Google Colab without installing anythi
 1. Open your Colab Notebook.  
 2. **⚠️ Important:** Go to `Runtime` → `Change runtime type` → Select **T4 GPU**.  
 3. You can reproduce the entire study (Setup → Data → Train → Evaluate) by running a single code block.
-
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1zewEue9U-N8-s_noMy-vq7CO1rwS9Ass)
 
 ### ⚡ Run Everything
 Copy and run the following code in a Colab cell. It will handle unzipping, installation, data download, training, and evaluation automatically.
