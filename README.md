@@ -28,7 +28,7 @@
 
 You can reproduce the entire study (Setup $\to$ Training $\to$ Evaluation) directly in your browser without any manual file handling.
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1zewEue9U-N8-s_noMy-vq7CO1rwS9Ass)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/18i2czNSQqpsEAfTJjQWZMmcOJWqAcYbE)
 
 ### 🛠️ Instructions for Reviewers
 
