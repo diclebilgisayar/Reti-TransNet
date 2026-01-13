@@ -123,11 +123,11 @@ Despite the domain shift, Reti-TransNet maintains semantic consistency on the ex
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
+```
 The repository is organized to ensure **modularity, clarity, and reproducibility**:
 
-```text
 Reti-TransNet/
 │
 ├── src/                     # Core implementation modules
@@ -145,10 +145,25 @@ Reti-TransNet/
 │
 ├── requirements.txt         # Python dependencies
 └── README.md                # Project documentation
+```
 
+## Citation
+
+If you use MEDSAMAugmentor in your research, please cite our paper:
+
+```bibtex
 @article{RetiTransNet2025,
   title={Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading},
   author={Anonymous Authors},
   journal={Submitted to Computers in Biology and Medicine},
   year={2025}
 }
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+
+
