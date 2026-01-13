@@ -48,7 +48,7 @@ Diabetic Retinopathy (DR) requires precise detection of both minute local lesion
 *   🏆 **State-of-the-Art Reliability:** Achieved a **Quadratic Weighted Kappa of 0.905** on the internal APTOS 2019 dataset.
 *   🌍 **Robust Generalization:** Demonstrated strong **cross-dataset performance** on the external **IDRiD** dataset (**AUC 0.963** for screening healthy patients).
 *   🔍 **Explainability:** Integrated **Grad-CAM++** ensures clinical transparency by localizing pathological biomarkers.
-*   ⚡ **Efficiency:** Aligned with Green AI principles, training completes within **25 epochs (~30 minutes)** on a single NVIDIA Tesla T4 GPU.
+*   ⚡ **Efficiency:** Aligned with Green AI principles, training converges within **25 epochs (~30 minutes)** on a single NVIDIA Tesla T4 GPU.
 
 ---
 
@@ -126,6 +126,7 @@ Despite the domain shift, Reti-TransNet maintains semantic consistency on the ex
 ## 📁 Project Structure
 
 The repository is organized to ensure **modularity, clarity, and reproducibility**:
+
 ```text
 Reti-TransNet/
 │
@@ -144,16 +145,3 @@ Reti-TransNet/
 │
 ├── requirements.txt         # Python dependencies
 └── README.md                # Project documentation
-
-## 📜 Citation
-If you use this code or model in your research, please cite our paper (BibTeX pending publication):
-
-@article{RetiTransNet2025,
-  title={Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading},
-  author={Anonymous Authors},
-  journal={Submitted to Computers in Biology and Medicine},
-  year={2025}
-}
-
-## ⚖️ License
-This project is licensed under the MIT License - see the LICENSE file for details.
