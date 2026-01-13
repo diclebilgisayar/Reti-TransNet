@@ -127,7 +127,7 @@ Despite the domain shift, Reti-TransNet maintains semantic consistency on the ex
 
 The repository is organized to ensure **modularity, clarity, and reproducibility**:
 
-```text
+text
 Reti-TransNet/
 │
 ├── src/                     # Core implementation modules
@@ -145,6 +145,7 @@ Reti-TransNet/
 │
 ├── requirements.txt         # Python dependencies
 └── README.md                # Project documentation
+```
 
 ---
 
@@ -159,7 +160,7 @@ If you use this code or model in your research, please cite our paper (BibTeX pe
   journal={Submitted to Computers in Biology and Medicine},
   year={2025}
 }
-
+```
 ---
 
 ## ⚖️ License
