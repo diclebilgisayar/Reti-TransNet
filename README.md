@@ -149,8 +149,6 @@ Reti-TransNet/
 
 ## Citation
 
-If you use MEDSAMAugmentor in your research, please cite our paper:
-
 ```bibtex
 @article{RetiTransNet2025,
   title={Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading},
