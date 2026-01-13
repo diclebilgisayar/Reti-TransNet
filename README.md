@@ -3,11 +3,11 @@
 </h1>
 
 <p align="center">
-  <!-- 1. Lisans -->
+  <!-- 1. License -->
   <a href="https://opensource.org/licenses/MIT">
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
   </a>
-  <!-- 2. Python Sürümü -->
+  <!-- 2. Python Version -->
   <a href="https://www.python.org/">
     <img src="https://img.shields.io/badge/Python-3.8+-3776AB.svg?logo=python&logoColor=white" alt="Python">
   </a>
@@ -15,18 +15,19 @@
   <a href="https://pytorch.org/">
     <img src="https://img.shields.io/badge/Framework-PyTorch-orange.svg?logo=pytorch&logoColor=white" alt="PyTorch">
   </a>
-  <!-- 4. Dataset Linki -->
+  <!-- 4. Dataset Link -->
   <a href="https://www.kaggle.com/c/aptos2019-blindness-detection">
     <img src="https://img.shields.io/badge/Dataset-Kaggle-20BEFF.svg?logo=kaggle&logoColor=white" alt="Kaggle">
   </a>
-  <!-- 5. Makale Durumu (İsteğe Bağlı ama Şık) -->
-  <img src="https://img.shields.io/badge/Paper-Submitted-green.svg" alt="Paper Status">
+  <!-- 5. Paper Status -->
+  <img src="https://img.shields.io/badge/Paper-Under%20Review-green.svg" alt="Paper Status">
 </p>
 
 ---
+
 ## 🚀 Quick Start on Google Colab (One-Click Reproduction)
 
-You can reproduce the entire study (Setup $\to$ Training $\to$ Evaluation) directly in your browser without any manual file handling.
+You can reproduce the entire study (Setup → Training → Evaluation) directly in your browser without any manual file handling.
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/18i2czNSQqpsEAfTJjQWZMmcOJWqAcYbE)
 
@@ -34,7 +35,7 @@ You can reproduce the entire study (Setup $\to$ Training $\to$ Evaluation) direc
 
 1.  **Click the Badge:** Click the **"Open in Colab"** button above to launch the pre-configured notebook.
 2.  **Run the Script:** Execute the code cell. The script will automatically fetch the repository and dependencies.
-3.  **Upload Key:** When prompted by the script, upload your **`kaggle.json`** API key to download the datasets.
+3.  **Upload Key:** When prompted by the script, upload your **`kaggle.json`** API key to download the datasets (APTOS 2019 & IDRiD).
 4.  **View Results:** The system will automatically train the model and display the final metrics (Kappa, AUC) and Grad-CAM++ figures.
 
 ---
@@ -45,9 +46,9 @@ Diabetic Retinopathy (DR) requires precise detection of both minute local lesion
 
 ### 🔑 Key Achievements
 *   🏆 **State-of-the-Art Reliability:** Achieved a **Quadratic Weighted Kappa of 0.905** on the internal APTOS 2019 dataset.
-*   🌍 **Robust Generalization:** Demonstrated strong zero-shot performance on the external **IDRiD** dataset (**AUC 0.963** for screening healthy patients).
+*   🌍 **Robust Generalization:** Demonstrated strong **cross-dataset performance** on the external **IDRiD** dataset (**AUC 0.963** for screening healthy patients).
 *   🔍 **Explainability:** Integrated **Grad-CAM++** ensures clinical transparency by localizing pathological biomarkers.
-*   ⚡ **Efficiency:** Trained in just **25 epochs** on a single NVIDIA Tesla T4 GPU, highlighting computational efficiency.
+*   ⚡ **Efficiency:** Aligned with Green AI principles, training completes within **25 epochs (~30 minutes)** on a single NVIDIA Tesla T4 GPU.
 
 ---
 
@@ -77,11 +78,11 @@ Reti-TransNet shows exceptional performance in identifying healthy patients (Scr
 
 <p align="center">
   <img src="images/Figure_5.png" width="50%" alt="APTOS ROC"/>
-  <br><em>Fig 2: Internal ROC Curves</em>
+  <br><em>Fig 2: Internal ROC Curves showing high discriminative ability.</em>
 </p>
 
-### 2. External Validation (IDRiD - Zero-Shot)
-Despite domain shift (different camera specifications), the model maintains high screening reliability.
+### 2. External Validation (IDRiD - Generalization)
+Despite domain shift (different camera specifications and population), the model maintains high screening reliability without fine-tuning.
 
 | Metric | Result |
 | :--- | :--- |
@@ -91,8 +92,10 @@ Despite domain shift (different camera specifications), the model maintains high
 
 <p align="center">
   <img src="images/Figure_6.png" width="50%" alt="IDRiD ROC"/>
-  <br><em>Fig 3: External ROC Curves (Zero-Shot)</em>
+  <br><em>Fig 3: External ROC Curves demonstrating robust generalization.</em>
 </p>
+
+---
 
 ## 🔍 Explainability (Grad-CAM++)
 
@@ -105,18 +108,20 @@ The model demonstrates precise localization of early pathological signs.
 
 <p align="center">
   <img src="images/figure_7.png" width="60%" alt="APTOS Grad-CAM Analysis">
-  <br><em>Fig 7: Qualitative analysis on APTOS 2019 dataset showing correct attention for No DR and Mild stages.</em>
+  <br><em>Fig 4: Qualitative analysis on APTOS 2019 dataset showing correct attention for No DR and Mild stages.</em>
 </p>
 
 ### 2. External Generalization (IDRiD)
-Despite the domain shift (different camera specifications), Reti-TransNet maintains semantic consistency on the external dataset.
-*   **IDRiD - No DR:** Similar to the internal set, the attention remains diffuse, validating the model's robust screening capability (AUC 0.958).
+Despite the domain shift, Reti-TransNet maintains semantic consistency on the external dataset.
+*   **IDRiD - No DR:** Similar to the internal set, the attention remains diffuse, validating the model's robust screening capability (AUC 0.963).
 *   **IDRiD - Mild:** The model successfully identifies early-stage biomarkers even in images with different lighting conditions.
 
 <p align="center">
   <img src="images/figure_8.png" width="60%" alt="IDRiD Grad-CAM Analysis">
-  <br><em>Fig 8: Zero-shot robustness on IDRiD. The model correctly processes external data without fine-tuning.</em>
+  <br><em>Fig 5: Cross-dataset robustness on IDRiD. The model correctly processes external data without fine-tuning.</em>
 </p>
+
+---
 
 ## 📁 Project Structure
 
@@ -129,9 +134,9 @@ Reti-TransNet/
 │   ├── dataset.py           # Custom dataset loaders with robust indexing
 │   └── utils.py             # Utilities (Ben Graham preprocessing, seeding)
 │
-├── weights/                 # Saved trained model checkpoints
+├── weights/                 # Saved trained model checkpoints (if available)
 ├── results/                 # Evaluation outputs (ROC curves, confusion matrices)
-├── images/                  # Figures used in README
+├── images/                  # Figures used in README and Manuscript
 │
 ├── train.py                 # Training pipeline (two-stage transfer learning)
 ├── evaluate.py              # Evaluation (TTA, threshold optimization, Grad-CAM++)
@@ -139,5 +144,16 @@ Reti-TransNet/
 │
 ├── requirements.txt         # Python dependencies
 └── README.md                # Project documentation
-```
----
+
+## 📜 Citation
+If you use this code or model in your research, please cite our paper (BibTeX pending publication):
+
+@article{RetiTransNet2025,
+  title={Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading},
+  author={Anonymous Authors},
+  journal={Submitted to Computers in Biology and Medicine},
+  year={2025}
+}
+
+## ⚖️ License
+This project is licensed under the MIT License - see the LICENSE file for details.
