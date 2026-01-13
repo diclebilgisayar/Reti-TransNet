@@ -150,11 +150,11 @@ Reti-TransNet/
 ## Citation
 
 ```bibtex
-@article{RetiTransNet2025,
+@article{RetiTransNet2026,
   title={Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading},
   author={Anonymous Authors},
   journal={Submitted to Computers in Biology and Medicine},
-  year={2025}
+  year={2026}
 }
 ```
 
