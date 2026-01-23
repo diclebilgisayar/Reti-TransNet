@@ -136,7 +136,7 @@ Reti-TransNet/
 │   └── utils.py             # Utilities (Ben Graham preprocessing, seeding)
 │
 ├── weights/                 # Saved trained model checkpoints (if available)
-├── images/                  # Figures used in README and Manuscript
+├── images/                  # Figures used in README
 │
 ├── train.py                 # Training pipeline (two-stage transfer learning)
 ├── evaluate.py              # Evaluation (TTA, threshold optimization, Grad-CAM++)
