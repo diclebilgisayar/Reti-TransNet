@@ -136,7 +136,6 @@ Reti-TransNet/
 │   └── utils.py             # Utilities (Ben Graham preprocessing, seeding)
 │
 ├── weights/                 # Saved trained model checkpoints (if available)
-├── results/                 # Evaluation outputs (ROC curves, confusion matrices)
 ├── images/                  # Figures used in README and Manuscript
 │
 ├── train.py                 # Training pipeline (two-stage transfer learning)
