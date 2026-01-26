@@ -143,16 +143,16 @@ Reti-TransNet/
 ├── download_data.py         # Automated dataset download (Kaggle mirrors)
 │
 ├── requirements.txt         # Python dependencies
-└── README.md                # Project documentation
+└── README.md                
 ```
 
 ## Citation
 
 ```bibtex
 @article{RetiTransNet2026,
-  title={Reti-TransNet: An Adaptive Gated Hybrid CNN-Transformer Framework for Diabetic Retinopathy Grading},
+  title={Reti-TransNet: Overcoming Static Fusion Limitations in Diabetic Retinopathy Grading via Adaptive Gated Feature Alignment and Robust Cross-Dataset Generalization},
   author={Anonymous Authors},
-  journal={Submitted to Computers in Biology and Medicine},
+  journal={Submitted to Biomedical Signal Processing and Control},
   year={2026}
 }
 ```
