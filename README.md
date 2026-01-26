@@ -42,7 +42,7 @@ You can reproduce the entire study (Setup → Training → Evaluation) directly 
 
 ## 📌 Abstract
 
-Diabetic Retinopathy (DR) requires precise detection of both minute local lesions and global structural distortions. **Reti-TransNet** is a novel hybrid framework that synergizes the local feature extraction capability of **EfficientNet-B0** with the global context modeling power of **Swin Transformer**. Unlike trivial concatenation strategies, we introduce a learnable **"Adaptive Gated Fusion"** mechanism to dynamically weight the importance of local versus global features based on image complexity.
+Accurate screening of Diabetic Retinopathy (DR) requires the identification of both subtle local lesions and global structural alterations. To address the limitations of standard CNNs and static fusion strategies, we propose **Reti-TransNet**, a hybrid deep learning framework that integrates **EfficientNet-B0** and **Swin Transformer** via a novel **Adaptive Gated Fusion** mechanism. This mechanism enables dynamic weighting of local and global features according to image complexity. Evaluated on **APTOS 2019**, the model achieved a **Kappa of 0.905**. Importantly, zero-shot external validation on the unseen **IDRiD** dataset confirmed robust generalization (**AUC 0.963** for screening healthy patients), bridging the gap between deep learning performance and clinical reliability.
 
 ### 🔑 Key Achievements
 *   🏆 **State-of-the-Art Reliability:** Achieved a **Quadratic Weighted Kappa of 0.905** on the internal APTOS 2019 dataset.
