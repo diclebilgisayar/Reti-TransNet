@@ -123,7 +123,7 @@ Despite the domain shift, Reti-TransNet maintains semantic consistency on the ex
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 The repository is organized to ensure **modularity, clarity, and reproducibility**:
@@ -156,7 +156,7 @@ While the model demonstrates strong cross-dataset generalization and explainabil
 
 The authors disclaim any responsibility for misuse of this software in medical or clinical environments beyond its intended research scope.
 
-## Citation
+## 📜 Citation
 
 ```bibtex
 @article{RetiTransNet2026,
@@ -167,10 +167,13 @@ The authors disclaim any responsibility for misuse of this software in medical o
 }
 ```
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## 🤝 Acknowledgements
+<h4>APTOS 2019 & IDRiD:</h4> Publicly available datasets that enabled this research.
+<h4>Open-source Libraries:</h4> PyTorch, NumPy, Scikit-learn, Matplotlib, and other tools supporting model development and evaluation.
 
 
 
