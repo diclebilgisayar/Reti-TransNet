@@ -145,6 +145,16 @@ Reti-TransNet/
 ├── requirements.txt         # Python dependencies
 └── README.md                
 ```
+## ⚠️ Ethical Considerations & Disclaimer
+
+This project is intended **strictly for research and educational purposes**.  
+The proposed Reti-TransNet framework is **not designed, validated, or approved for clinical diagnosis or direct medical decision-making**.
+
+All experiments were conducted using **publicly available and de-identified datasets** (APTOS 2019 and IDRiD). No private patient data were collected or processed as part of this work.
+
+While the model demonstrates strong cross-dataset generalization and explainability, **its outputs should not be interpreted as clinically accurate or authoritative**. Any deployment in real-world clinical settings would require **extensive validation, regulatory approval, and expert supervision**.
+
+The authors disclaim any responsibility for misuse of this software in medical or clinical environments beyond its intended research scope.
 
 ## Citation
 
