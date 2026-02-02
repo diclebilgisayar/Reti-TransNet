@@ -1,27 +1,5 @@
 <h1 align="center">
 👁️ Reti-TransNet: Overcoming Static Fusion Limitations in Diabetic Retinopathy Grading via Adaptive Gated Feature Alignment and Robust Cross-Dataset Generalization
-</h1>
-
-<p align="center">
-  <!-- 1. License -->
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
-  </a>
-  <!-- 2. Python Version -->
-  <a href="https://www.python.org/">
-    <img src="https://img.shields.io/badge/Python-3.8+-3776AB.svg?logo=python&logoColor=white" alt="Python">
-  </a>
-  <!-- 3. Framework -->
-  <a href="https://pytorch.org/">
-    <img src="https://img.shields.io/badge/Framework-PyTorch-orange.svg?logo=pytorch&logoColor=white" alt="PyTorch">
-  </a>
-  <!-- 4. Dataset Link -->
-  <a href="https://www.kaggle.com/c/aptos2019-blindness-detection">
-    <img src="https://img.shields.io/badge/Dataset-Kaggle-20BEFF.svg?logo=kaggle&logoColor=white" alt="Kaggle">
-  </a>
-  <!-- 5. Paper Status -->
-  <img src="https://img.shields.io/badge/Paper-Under%20Review-green.svg" alt="Paper Status">
-</p>
 
 </h1>
 
