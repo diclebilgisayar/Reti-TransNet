@@ -23,6 +23,33 @@
   <img src="https://img.shields.io/badge/Paper-Under%20Review-green.svg" alt="Paper Status">
 </p>
 
+</h1>
+
+<p align="center">
+  <!-- 1. License -->
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+  </a>
+  <!-- 2. Python Version -->
+  <a href="https://www.python.org/">
+    <img src="https://img.shields.io/badge/Python-3.8+-3776AB.svg?logo=python&logoColor=white" alt="Python">
+  </a>
+  <!-- 3. Framework -->
+  <a href="https://pytorch.org/">
+    <img src="https://img.shields.io/badge/Framework-PyTorch-orange.svg?logo=pytorch&logoColor=white" alt="PyTorch">
+  </a>
+  <!-- 4. Dataset Link (APTOS) -->
+  <a href="https://www.kaggle.com/c/aptos2019-blindness-detection">
+    <img src="https://img.shields.io/badge/Dataset-APTOS%202019-20BEFF.svg?logo=kaggle&logoColor=white" alt="APTOS 2019 Kaggle">
+  </a>
+  <!-- 5. Dataset Link (IDRiD) -->
+  <a href="https://ieee-dataport.org/open-access/indian-diabetic-retinopathy-image-dataset-idrid">
+    <img src="https://img.shields.io/badge/Dataset-IDRiD-FF6347.svg?logo=IEEE%20DataPort&logoColor=white" alt="IDRiD IEEE DataPort">
+  </a>
+  <!-- 6. Paper Status -->
+  <img src="https://img.shields.io/badge/Paper-Under%20Review-green.svg" alt="Paper Status">
+</p>
+
 ---
 
 ## 🚀 Quick Start on Google Colab (One-Click Reproduction)
