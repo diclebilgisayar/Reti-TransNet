@@ -1,6 +1,5 @@
 <h1 align="center">
-👁️ Reti-TransNet: Overcoming Static Fusion Limitations in Diabetic Retinopathy Grading via Adaptive Gated Feature Alignment and Robust Cross-Dataset Generalization
-
+👁️ Reti-TransNet: An Adaptive Gated Hybrid Framework for Diabetic Retinopathy Grading
 </h1>
 
 <p align="center">
@@ -156,7 +155,7 @@ Reti-TransNet/
 ├── download_data.py # Automated dataset download (Kaggle mirrors)
 │
 ├── requirements.txt # Python dependencies
-└── README.md # This file              
+└── README.md               
 ```
 ## ⚠️ Ethical Considerations & Disclaimer
 
@@ -175,9 +174,9 @@ The authors disclaim any responsibility for misuse of this software in medical o
 
 ```bibtex
 @article{RetiTransNet2026,
-   title={Reti-TransNet: Overcoming Static Fusion Limitations in Diabetic Retinopathy Grading via Adaptive Gated Feature Alignment and Robust Cross-Dataset Generalization},
-  author={Anonymous Authors}, % Must remain anonymous during the review process.
-  journal={Submitted to Engineering Science and Technology, an International Journal (JESTECH)}, % Journal name updated.
+  title={Reti-TransNet: An Adaptive Gated Hybrid Framework for Diabetic Retinopathy Grading},
+  author={Anonymous Authors},
+  journal={Submitted to Engineering Science and Technology, an International Journal (JESTECH)}, 
   year={2026}
 }
 ```
