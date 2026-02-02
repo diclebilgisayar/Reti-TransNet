@@ -175,11 +175,12 @@ The authors disclaim any responsibility for misuse of this software in medical o
 
 ```bibtex
 @article{RetiTransNet2026,
-  title={Reti-TransNet: Overcoming Static Fusion Limitations in Diabetic Retinopathy Grading via Adaptive Gated Feature Alignment and Robust Cross-Dataset Generalization},
+   title={Reti-TransNet: Overcoming Static Fusion Limitations in Diabetic Retinopathy Grading via Adaptive Gated Feature Alignment and Robust Cross-Dataset Generalization},
   author={Anonymous Authors}, % Must remain anonymous during the review process.
   journal={Submitted to Engineering Science and Technology, an International Journal (JESTECH)}, % Journal name updated.
   year={2026}
 }
+```
 
 ## 📄 License
 
@@ -188,6 +189,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🤝 Acknowledgements
 <h4>APTOS 2019 & IDRiD:</h4> Publicly available datasets that enabled this research.
 <h4>Open-source Libraries:</h4> PyTorch, NumPy, Scikit-learn, Matplotlib, and other tools supporting model development and evaluation.
-
-
 
