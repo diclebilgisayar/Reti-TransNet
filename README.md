@@ -59,7 +59,7 @@ Accurate screening of Diabetic Retinopathy (DR) requires the identification of b
 ## 🔑 Key Achievements (Linked to Codebase)
 *   🏆 **State-of-the-Art Reliability:** Achieved a **Quadratic Weighted Kappa of 0.905** on the internal APTOS 2019 dataset. (See: `evaluate.py` and `results/aptos_metrics.json`)
 *   🌍 **Robust Generalization:** Demonstrated strong **cross-dataset performance** on the external **IDRiD** dataset (**AUC 0.963** for screening healthy patients). (See: `evaluate.py` and `results/idrid_metrics.json`)
-*   🔍 **Explainability:** Integrated **Grad-CAM++** ensures clinical transparency by localizing pathological biomarkers. (See: `evaluate.py` and `images/gradcam_visuals/`)
+*   🔍 **Explainability:** Integrated **Grad-CAM++** ensures clinical transparency by localizing pathological biomarkers. (See: `evaluate.py` and `images/`)
 *   ⚡ **Efficiency:** Aligned with Green AI principles, training converges within **25 epochs (~30 minutes)** on a single NVIDIA Tesla T4 GPU. (See: `train.py` and Colab outputs)
 
 ---
