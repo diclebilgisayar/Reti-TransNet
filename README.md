@@ -147,12 +147,10 @@ Reti-TransNet/
 │ ├── dataset.py # Custom dataset loaders with robust indexing
 │ └── utils.py # Utilities (Ben Graham preprocessing, seeding)
 │
-├── weights/ # Saved trained model checkpoints (if available)
 ├── images/ # Figures used in README
 │
 ├── train.py # Training pipeline (two-stage transfer learning)
 ├── evaluate.py # Evaluation (TTA, threshold optimization, Grad-CAM++)
-├── evaluate_and_plot.py # Evaluation scripts for confusion matrices and ROC curves
 ├── download_data.py # Automated dataset download (Kaggle mirrors)
 │
 ├── requirements.txt # Python dependencies
