@@ -152,7 +152,7 @@ Reti-TransNet/
 │
 ├── train.py # Training pipeline (two-stage transfer learning)
 ├── evaluate.py # Evaluation (TTA, threshold optimization, Grad-CAM++)
-├── evaluate_and_plot.py # Evaluation (manuscript figures and ROC graphs results)
+├── evaluate_and_plot.py # Evaluation scripts for confusion matrices and ROC curves
 ├── download_data.py # Automated dataset download (Kaggle mirrors)
 │
 ├── requirements.txt # Python dependencies
