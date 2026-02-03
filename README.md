@@ -89,7 +89,7 @@ Reti-TransNet shows exceptional performance in identifying healthy patients (Scr
 | **AUC (No DR)** | **0.998** |
 
 <p align="center">
-  <img src="images/Figure_5.png" width="50%" alt="APTOS ROC Curves"/>
+  <img src="images/APTOS_ROC.png" width="50%" alt="APTOS ROC Curves"/>
   <br><em>Fig 2: Internal ROC Curves showing high discriminative ability.</em>
 </p>
 
@@ -103,7 +103,7 @@ Despite domain shift (different camera specifications and population), the model
 | **AUC (No DR)** | **0.963** |
 
 <p align="center">
-  <img src="images/Figure_6.png" width="50%" alt="IDRiD ROC Curves"/>
+  <img src="images/IDRiD_ROC.png" width="50%" alt="IDRiD ROC Curves"/>
   <br><em>Fig 3: External ROC Curves demonstrating robust generalization.</em>
 </p>
 
