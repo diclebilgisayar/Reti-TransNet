@@ -11,7 +11,7 @@ from sklearn.preprocessing import label_binarize
 
 # NOTE: Since we are in Colab local env, we use relative paths.
 # Ensure train.py saves results to './results'
-LOAD_DIR = './results'
+LOAD_DIR = './weight'
 SAVE_DIR = './result_final'
 os.makedirs(SAVE_DIR, exist_ok=True)
 
@@ -145,5 +145,6 @@ if aptos_data:
 if idrid_data:
     plot_confusion_matrix(idrid_data[0], idrid_data[1], "IDRiD Confusion Matrix (External)", "IDRiD_CM.png")
     plot_roc_curves(idrid_data[0], idrid_data[2], "IDRiD ROC Curves (External)", "IDRiD_ROC.png")
+
 
 print(f"✅ All figures saved to local '{SAVE_DIR}' folder.")
