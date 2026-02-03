@@ -119,7 +119,7 @@ The model demonstrates precise localization of early pathological signs.
 *   **Class: Mild:** The model accurately highlights subtle microaneurysms near the macula, which are critical for early detection.
 
 <p align="center">
-  <img src="images/figure_7.png" width="60%" alt="APTOS Grad-CAM Analysis">
+  <img src="images/sample_APTOS_GradCAM.png" width="60%" alt="APTOS Grad-CAM Analysis">
   <br><em>Fig 4: Qualitative analysis on APTOS 2019 dataset showing correct attention for No DR and Mild stages.</em>
 </p>
 
@@ -129,7 +129,7 @@ Despite the domain shift, Reti-TransNet maintains semantic consistency on the ex
 *   **IDRiD - Mild:** The model successfully identifies early-stage biomarkers even in images with different lighting conditions.
 
 <p align="center">
-  <img src="images/figure_8.png" width="60%" alt="IDRiD Grad-CAM Analysis">
+  <img src="images/sample_IDRiD_GradCAM.png" width="60%" alt="IDRiD Grad-CAM Analysis">
   <br><em>Fig 5: Cross-dataset robustness on IDRiD. The model correctly processes external data without fine-tuning.</em>
 </p>
 
