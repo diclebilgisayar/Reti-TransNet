@@ -11,7 +11,7 @@ from sklearn.preprocessing import label_binarize
 
 # NOTE: Since we are in Colab local env, we use relative paths.
 # Ensure train.py saves results to './results'
-LOAD_DIR = './weight'
+LOAD_DIR = './weights'
 SAVE_DIR = './result_final'
 os.makedirs(SAVE_DIR, exist_ok=True)
 
@@ -148,3 +148,4 @@ if idrid_data:
 
 
 print(f"✅ All figures saved to local '{SAVE_DIR}' folder.")
+
