@@ -99,7 +99,7 @@ Despite domain shift (different camera specifications and population), the model
 | Metric | Result |
 | :--- | :--- |
 | **Kappa ($\kappa$)** | **0.772** |
-| **Accuracy** | **59.12%** |
+| **Accuracy** | **59.1%** |
 | **AUC (No DR)** | **0.963** |
 
 <p align="center">
