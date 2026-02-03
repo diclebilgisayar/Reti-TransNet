@@ -69,7 +69,7 @@ Accurate screening of Diabetic Retinopathy (DR) requires the identification of b
 The proposed architecture consists of two parallel branches (CNN & Transformer) fused by a novel **Adaptive Gated Fusion Mechanism**. This mechanism is meticulously implemented within the `src/model.py` file.
 
 <p align="center">
-  <img src="images/figure_2.png" width="95%">
+  <img src="images/proposed_pipeline.png" width="95%">
   <br><em>Fig 1: Overall workflow of the Reti-TransNet architecture.</em>
 </p>
 
