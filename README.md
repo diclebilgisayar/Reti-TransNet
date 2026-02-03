@@ -47,7 +47,7 @@ You can reproduce the entire study (Setup → Training → Evaluation) directly 
 2.  **Run the Script:** Execute the code cell. The script will automatically fetch the repository and dependencies.
 3.  **Upload Key:** When prompted by the script, upload your **`kaggle.json`** API key to download the datasets (APTOS 2019 & IDRiD).
 4.  **View Results:** The system will automatically train the model and display the final metrics (Kappa, AUC) and Grad-CAM++ figures.
-*Note: The Colab session is expected to complete the full training and evaluation process in approximately 30-40 minutes on a single NVIDIA Tesla T4 GPU. This runtime aligns with the efficiency claims stated in the manuscript.*
+*Note: The Colab session is expected to complete the full training and evaluation process in approximately 30 minutes on a single NVIDIA Tesla T4 GPU. This runtime aligns with the efficiency claims stated in the manuscript.*
 ---
 
 ## 📌 Manuscript Abstract
@@ -57,9 +57,9 @@ Accurate screening of Diabetic Retinopathy (DR) requires the identification of b
 ---
 
 ## 🔑 Key Achievements (Linked to Codebase)
-*   🏆 **State-of-the-Art Reliability:** Achieved a **Quadratic Weighted Kappa of 0.905** on the internal APTOS 2019 dataset. (See: `evaluate.py` and `results/aptos_metrics.json`)
-*   🌍 **Robust Generalization:** Demonstrated strong **cross-dataset performance** on the external **IDRiD** dataset (**AUC 0.963** for screening healthy patients). (See: `evaluate.py` and `results/idrid_metrics.json`)
-*   🔍 **Explainability:** Integrated **Grad-CAM++** ensures clinical transparency by localizing pathological biomarkers. (See: `evaluate.py` and `images/`)
+*   🏆 **State-of-the-Art Reliability:** Achieved a **Quadratic Weighted Kappa of 0.905** on the internal APTOS 2019 dataset. 
+*   🌍 **Robust Generalization:** Demonstrated strong **cross-dataset performance** on the external **IDRiD** dataset (**AUC 0.963** for screening healthy patients). 
+*   🔍 **Explainability:** Integrated **Grad-CAM++** ensures clinical transparency by localizing pathological biomarkers. 
 *   ⚡ **Efficiency:** Aligned with Green AI principles, training converges within **25 epochs (~30 minutes)** on a single NVIDIA Tesla T4 GPU. (See: `train.py` and Colab outputs)
 
 ---
@@ -152,6 +152,7 @@ Reti-TransNet/
 │
 ├── train.py # Training pipeline (two-stage transfer learning)
 ├── evaluate.py # Evaluation (TTA, threshold optimization, Grad-CAM++)
+├── evaluate_and_plot.py # Evaluation (manuscript figures and ROC graphs results)
 ├── download_data.py # Automated dataset download (Kaggle mirrors)
 │
 ├── requirements.txt # Python dependencies
