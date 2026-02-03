@@ -12,10 +12,12 @@ from scipy.optimize import minimize
 from functools import partial
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
+
+# --- GRAD-CAM IMPORTS ---
 from pytorch_grad_cam import GradCAMPlusPlus
 from pytorch_grad_cam.utils.image import show_cam_on_image
 
-# Modular imports
+# Modular imports (Kendi proje yapınıza göre buraların çalıştığından emin olun)
 from src.model import RetiTransNet
 from src.dataset import RetinopathyDataset
 from src.utils import seed_everything
@@ -23,7 +25,7 @@ from src.utils import seed_everything
 # --- CONFIGURATION ---
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-# Priority: Best weights > Last weights
+# Model ağırlık yolu
 if os.path.exists("weights/retitransnet_best.pth"):
     WEIGHTS_PATH = "weights/retitransnet_best.pth"
 else:
@@ -32,7 +34,7 @@ else:
 RESULTS_DIR = "results"
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
-# Plotting Settings for Q1 Journals
+# Grafik Ayarları (Q1 Dergi Standartları)
 plt.rcParams.update({
     'font.family': 'serif', 
     'font.size': 14, 
@@ -44,15 +46,10 @@ plt.rcParams.update({
 # --- HELPER CLASSES ---
 
 class OptimizedRounder:
-    """
-    Optimizes classification thresholds to maximize the Quadratic Weighted Kappa score.
-    Since DR grading is ordinal, shifting thresholds often yields better results than standard argmax.
-    """
     def __init__(self): 
         self.coef_ = [0.5, 1.5, 2.5, 3.5]
         
     def _loss(self, coef, X, y): 
-        # Negative Kappa because minimize() looks for the lowest value
         return -cohen_kappa_score(y, np.digitize(X, coef), weights='quadratic')
     
     def fit(self, X, y): 
@@ -65,27 +62,16 @@ class OptimizedRounder:
 # --- FUNCTIONS ---
 
 def predict_tta(model, loader):
-    """
-    Performs Test-Time Augmentation (TTA).
-    Averages predictions of the original image and its horizontal flip.
-    """
     model.eval()
     preds, labels, probs = [], [], []
-    
-    # Start timer for inference speed
     start_time = time.time()
     
     with torch.no_grad():
         for img, lbl in loader:
             img = img.to(DEVICE)
-            
-            # 1. Forward pass (Original)
+            # TTA: Original + Flip
             out1 = torch.softmax(model(img), dim=1)
-            
-            # 2. Forward pass (Horizontal Flip)
             out2 = torch.softmax(model(torch.flip(img, [3])), dim=1)
-            
-            # Average probabilities
             final_prob = (out1 + out2) / 2
             pred = torch.argmax(final_prob, dim=1)
             
@@ -94,20 +80,15 @@ def predict_tta(model, loader):
             probs.extend(final_prob.cpu().numpy())
             
     total_time = time.time() - start_time
-    avg_inference = (total_time / len(loader.dataset)) * 1000 # ms per image
-    
+    avg_inference = (total_time / len(loader.dataset)) * 1000 
     return np.array(labels), np.array(preds), np.array(probs), avg_inference
 
 def plot_confusion_matrix(y_true, y_pred, title, filename):
-    """Generates and saves a Confusion Matrix with Row-wise Recall percentages."""
     cm = confusion_matrix(y_true, y_pred)
-    
-    # Calculate percentages
     cm_sum = np.sum(cm, axis=1, keepdims=True)
-    cm_sum[cm_sum==0] = 1 # Avoid division by zero
+    cm_sum[cm_sum==0] = 1 
     cm_perc = cm / cm_sum.astype(float) * 100
     
-    # Annotation text
     annot = np.empty_like(cm).astype(str)
     nrows, ncols = cm.shape
     for i in range(nrows):
@@ -131,7 +112,6 @@ def plot_confusion_matrix(y_true, y_pred, title, filename):
     print(f"🖼️ Saved Confusion Matrix: {filename}")
 
 def plot_roc_curves(y_true, y_probs, title, filename):
-    """Generates and saves One-vs-Rest ROC Curves."""
     y_bin = label_binarize(y_true, classes=[0, 1, 2, 3, 4])
     class_names = ['No DR', 'Mild', 'Moderate', 'Severe', 'Proliferative']
     
@@ -140,7 +120,7 @@ def plot_roc_curves(y_true, y_probs, title, filename):
         if np.sum(y_bin[:, i]) > 0:
             fpr, tpr, _ = roc_curve(y_bin[:, i], y_probs[:, i])
             roc_auc = auc(fpr, tpr)
-            lw = 4.5 if i == 0 else 3.0 # Thicker line for No DR
+            lw = 4.5 if i == 0 else 3.0
             plt.plot(fpr, tpr, lw=lw, label=f'{class_names[i]} (AUC={roc_auc:.3f})')
             
     plt.plot([0, 1], [0, 1], 'k--', lw=2, alpha=0.6)
@@ -157,16 +137,29 @@ def plot_roc_curves(y_true, y_probs, title, filename):
     print(f"🖼️ Saved ROC Curve: {filename}")
 
 def generate_gradcam(model, loader, dataset_name, filename):
-    """Generates Grad-CAM++ visualizations for each class."""
-    # Target Layer: Last Convolutional Layer of EfficientNet
-    target_layers = [model.cnn.conv_head]
+    """
+    Her sınıf için doğru tahmin edilen örneklerden Grad-CAM++ oluşturur.
+    """
+    print(f"🔍 Generating Grad-CAM for {dataset_name}...")
+    
+    # HEDEF KATMAN SEÇİMİ (Modelinize göre burayı kontrol edin)
+    # Eğer RetiTransNet içinde 'cnn' isimli bir timm modeli varsa ve EfficientNet ise:
+    # Genelde 'conv_head' veya son bloktur. Model yapınıza göre hata alırsanız burayı değiştirin.
+    try:
+        target_layers = [model.cnn.conv_head]
+    except AttributeError:
+        # Alternatif: Model yapısı farklıysa son katmanı otomatik bulmayı deneyelim (örnek)
+        # target_layers = [list(model.children())[-1]] 
+        print("⚠️ Hata: model.cnn.conv_head bulunamadı. Lütfen hedef katmanı model yapınıza göre düzeltin.")
+        return
+
     cam = GradCAMPlusPlus(model=model, target_layers=target_layers)
     
     found_classes = {}
     model.eval()
     iterator = iter(loader)
     
-    # Search for one correct prediction per class
+    # Sınırlı sayıda batch dene
     max_batches = 60
     for _ in range(max_batches):
         try:
@@ -181,17 +174,17 @@ def generate_gradcam(model, loader, dataset_name, filename):
             
         for i in range(len(labels_np)):
             lbl = labels_np[i]
-            # Only visualize correctly classified samples
+            # Sadece DOĞRU tahmin edilenleri ve henüz bulunmamış sınıfları al
             if lbl == preds[i] and lbl not in found_classes:
                 found_classes[lbl] = inputs[i]
-            if len(found_classes) == 5: break
+            if len(found_classes) == 5: break # 5 sınıf da bulunduysa çık
         if len(found_classes) == 5: break
     
     if not found_classes:
-        print(f"⚠️ Warning: Not all classes found for Grad-CAM in {dataset_name}.")
+        print(f"⚠️ Warning: Grad-CAM için örnekler bulunamadı ({dataset_name}).")
         return
 
-    # Plotting
+    # Görselleştirme
     sorted_keys = sorted(found_classes.keys())
     fig, axes = plt.subplots(len(sorted_keys), 3, figsize=(10, 3 * len(sorted_keys)))
     if len(sorted_keys) == 1: axes = np.expand_dims(axes, 0)
@@ -202,31 +195,32 @@ def generate_gradcam(model, loader, dataset_name, filename):
         img_tensor = found_classes[lbl]
         input_tensor = img_tensor.unsqueeze(0)
         
-        # Generate Heatmap
+        # Heatmap Üret
+        # GradCAM için target belirtilmezse en yüksek skorlu sınıfı alır (ki zaten doğru tahmin edilenleri seçtik)
         gray_cam = cam(input_tensor=input_tensor, targets=None)[0, :]
         
-        # Denormalize Image
+        # Resmi Denormalize Et (Görüntülemek için)
         rgb_img = img_tensor.permute(1, 2, 0).cpu().numpy()
         mean = np.array([0.485, 0.456, 0.406])
         std = np.array([0.229, 0.224, 0.225])
         rgb_img = std * rgb_img + mean
         rgb_img = np.clip(rgb_img, 0, 1)
         
-        # Overlay
+        # Overlay (Bindirme)
         vis = show_cam_on_image(rgb_img, gray_cam, use_rgb=True)
         
-        # Original
+        # 1. Orijinal Resim
         ax = axes[idx, 0] if len(sorted_keys) > 1 else axes[0]
         ax.imshow(rgb_img)
         ax.set_title(f"{dataset_name}: {class_names[lbl]}", fontweight='bold')
         ax.axis('off')
         
-        # Heatmap
+        # 2. Heatmap
         ax = axes[idx, 1] if len(sorted_keys) > 1 else axes[1]
         ax.imshow(gray_cam, cmap='jet')
         ax.axis('off')
         
-        # Overlay
+        # 3. Sonuç (Overlay)
         ax = axes[idx, 2] if len(sorted_keys) > 1 else axes[2]
         ax.imshow(vis)
         ax.axis('off')
@@ -298,9 +292,9 @@ def main():
         print(f"⭐ APTOS No DR AUC: {nodr_auc:.4f}")
         
         # Visualizations
-        plot_confusion_matrix(y_true, y_pred_opt, "APTOS Confusion Matrix", "figure_4.png")
-        plot_roc_curves(y_true, y_probs, "APTOS ROC Curves", "figure_5.png")
-        generate_gradcam(model, loader, "APTOS", "figure_7.png")
+        plot_confusion_matrix(y_true, y_pred_opt, "APTOS Confusion Matrix", "CM_APTOS.png")
+        plot_roc_curves(y_true, y_probs, "APTOS ROC Curves", "ROC_APTOS.png")
+        generate_gradcam(model, loader, "APTOS", "GradCAM_APTOS.png") # GradCAM Eklendi
 
     # ---------------------------------------------------------
     # 3. EXTERNAL VALIDATION (IDRiD)
@@ -311,13 +305,12 @@ def main():
     if idrid_csv:
         print("\n--- EXTERNAL VALIDATION (IDRiD) ---")
         df_ext = pd.read_csv(idrid_csv).iloc[:, :2]
-        df_ext.columns = ['id_code', 'diagnosis'] # Ensure columns
+        df_ext.columns = ['id_code', 'diagnosis']
         
-        # Root dir might be nested, handled by smart dataset class
         loader_ext = DataLoader(RetinopathyDataset(df_ext, 'idrid_dataset', transform=val_aug), batch_size=16, num_workers=2)
         
         y_true_e, _, y_probs_e, _ = predict_tta(model, loader_ext)
-        y_pred_e = np.argmax(y_probs_e, 1) # Zero-shot (No optimization)
+        y_pred_e = np.argmax(y_probs_e, 1)
         
         # Metrics
         y_bin_e = label_binarize(y_true_e, classes=[0,1,2,3,4])
@@ -327,9 +320,10 @@ def main():
         print(f"🌍 IDRiD Accuracy: {accuracy_score(y_true_e, y_pred_e)*100:.2f}%")
         print(f"⭐ IDRiD No DR AUC: {nodr_auc_e:.4f}")
         
-        # Visualizations (Only ROC and GradCAM)
-        plot_roc_curves(y_true_e, y_probs_e, "IDRiD ROC Curves", "figure_6.png")
-        generate_gradcam(model, loader_ext, "IDRiD", "figure_8.png")
+        # Visualizations
+        plot_confusion_matrix(y_true_e, y_pred_e, "IDRiD Confusion Matrix", "CM_IDRiD.png")
+        plot_roc_curves(y_true_e, y_probs_e, "IDRiD ROC Curves", "ROC_IDRiD.png")
+        generate_gradcam(model, loader_ext, "IDRiD", "GradCAM_IDRiD.png") # GradCAM Eklendi
 
     print(f"\n✅ Evaluation Complete. Check '{RESULTS_DIR}' folder.")
 
