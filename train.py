@@ -9,7 +9,6 @@ It employs a Two-Stage Transfer Learning strategy as described in the manuscript
 Dataset: APTOS 2019 Blindness Detection
 Hardware: Designed for NVIDIA Tesla T4 (Mixed Precision Enabled)
 """
-# train.py dosyanızın en başı:
 import os
 import argparse
 import random
@@ -24,15 +23,14 @@ def seed_everything(seed):
     torch.cuda.manual_seed(seed)
     torch.backends.cudnn.deterministic = True
 
-# Argüman ayrıştırma
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--seed', type=int, default=42, help='Random seed')
-    # ... diğer argümanlar ...
+  
     args = parser.parse_args()
     
-    seed_everything(args.seed) # SEED BURADA AYARLANIYOR
-    # ... eğitim kodları devam eder ...
+    seed_everything(args.seed) 
+
 
 import os
 import sys
