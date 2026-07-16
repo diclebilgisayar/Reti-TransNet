@@ -23,12 +23,10 @@
   <a href="https://ieee-dataport.org/open-access/indian-diabetic-retinopathy-image-dataset-idrid">
     <img src="https://img.shields.io/badge/Dataset-IDRiD-FF6347.svg?logo=IEEE%20DataPort&logoColor=white" alt="IDRiD IEEE DataPort">
   </a>
-  <!-- 6. Paper Status -->
-  <img src="https://img.shields.io/badge/Paper-Under%20Review-green.svg" alt="Paper Status">
 </p>
 
 ---
-## ✨ Project Overview (For JESTECH Reviewers)
+## ✨ Project Overview
 
 This repository provides the source code and reproducibility pipeline for **Reti-TransNet**, a novel hybrid deep learning framework proposed for Diabetic Retinopathy (DR) grading. Our work addresses the critical limitations of **static feature fusion** in conventional Convolutional Neural Networks (CNNs) and Vision Transformers (ViTs). Through an **Adaptive Gated Fusion (AGF)** mechanism, Reti-TransNet dynamically aligns local lesion features with global structural patterns, overcoming a fundamental engineering bottleneck in existing methodologies.
 
