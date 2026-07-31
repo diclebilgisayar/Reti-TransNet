@@ -32,23 +32,6 @@ This repository provides the source code and reproducibility pipeline for **Reti
 
 The primary objective of this repository is to enable transparent and effortless reproduction of all experimental results presented in our submitted manuscript, including internal validation on APTOS 2019, rigorous external generalization on IDRiD, ablation studies, and Grad-CAM++ visualizations.
 
----
-## 🚀 Quick Start on Google Colab (One-Click Reproduction)
-
-You can reproduce the entire study (Setup → Training → Evaluation) directly in your browser without any manual file handling.
-
-![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)
-(https://colab.research.google.com/drive/1WmXA3ZfXJsQ0L7eGxNUDQ8kk5ApTLmZf)
-
-### 🛠️ Instructions for Reviewers
-
-1.  **Click the Badge:** Click the **"Open in Colab"** button above to launch the pre-configured notebook.
-2.  **Run the Script:** Execute the code cell. The script will automatically fetch the repository and dependencies.
-3.  **Upload Key:** When prompted by the script, upload your **`kaggle.json`** API key to download the datasets (APTOS 2019 & IDRiD).
-4.  **View Results:** The system will automatically train the model and display the final metrics (Kappa, AUC) and Grad-CAM++ figures.
-*Note: The Colab session is expected to complete the full training and evaluation process in approximately 30 minutes on a single NVIDIA Tesla T4 GPU. This runtime aligns with the efficiency claims stated in the manuscript.*
----
-
 ## 📌 Manuscript Abstract
 
 Accurate screening of Diabetic Retinopathy (DR) requires the identification of both subtle local lesions and global structural alterations. To address the limitations of standard CNNs and static fusion strategies, we propose **Reti-TransNet**, a hybrid deep learning framework that integrates **EfficientNet-B0** and **Swin Transformer** via a novel **Adaptive Gated Fusion** mechanism. This mechanism enables dynamic weighting of local and global features according to image complexity. Evaluated on **APTOS 2019**, the model achieved a **Kappa of 0.905**. Importantly, **rigorous external validation** on the unseen **IDRiD** dataset confirmed robust generalization (**AUC 0.963** for screening healthy patients), bridging the gap between deep learning performance and clinical reliability.
