@@ -37,8 +37,8 @@ The primary objective of this repository is to enable transparent and effortless
 
 You can reproduce the entire study (Setup → Training → Evaluation) directly in your browser without any manual file handling.
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]
-%(https://colab.research.google.com/drive/1WmXA3ZfXJsQ0L7eGxNUDQ8kk5ApTLmZf)%
+![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)
+(https://colab.research.google.com/drive/1WmXA3ZfXJsQ0L7eGxNUDQ8kk5ApTLmZf)
 
 ### 🛠️ Instructions for Reviewers
 
