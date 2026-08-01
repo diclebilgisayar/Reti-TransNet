@@ -168,8 +168,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🤝 Acknowledgements
 
-<h4>Research Support:</h4> This research was supported by Dicle University Scientific Research Projects Unit (DUBAP) under the project No.<br>
-<strong>TEKNİK-MYO.26.003</strong>.
+<h4>Research Support:</h4> This research was supported by Dicle University Scientific Research Projects Unit <strong>(DUBAP)</strong> under <br>
+<strong>the project No. TEKNİK-MYO.26.003</strong>.
 
 <h4>APTOS 2019 & IDRiD:</h4> Publicly available datasets that enabled this research.
 
