@@ -167,6 +167,10 @@ The authors disclaim any responsibility for misuse of this software in medical o
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Acknowledgements
+
+<h4>Research Support:</h4> This research was supported by Dicle University Scientific Research Projects Unit (DUBAP) under the project No. TEKNİK-MYO.26.003.
+
 <h4>APTOS 2019 & IDRiD:</h4> Publicly available datasets that enabled this research.
+
 <h4>Open-source Libraries:</h4> PyTorch, NumPy, Scikit-learn, Matplotlib, and other tools supporting model development and evaluation.
 
