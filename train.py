@@ -1,14 +1,3 @@
-"""
-Reti-TransNet Training Script
------------------------------
-This script implements the training pipeline for the Reti-TransNet hybrid architecture.
-It employs a Two-Stage Transfer Learning strategy as described in the manuscript:
-    - Phase 1 (Epochs 1-15): Backbones are frozen; only Fusion and Classification heads are trained.
-    - Phase 2 (Epochs 16-25): The entire network is unfrozen and fine-tuned with a lower learning rate.
-
-Dataset: APTOS 2019 Blindness Detection
-Hardware: Designed for NVIDIA Tesla T4 (Mixed Precision Enabled)
-"""
 import os
 import argparse
 import random
@@ -30,7 +19,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     seed_everything(args.seed) 
-
 
 import os
 import sys
