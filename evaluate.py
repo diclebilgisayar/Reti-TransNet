@@ -16,8 +16,6 @@ from albumentations.pytorch import ToTensorV2
 # --- GRAD-CAM IMPORTS ---
 from pytorch_grad_cam import GradCAMPlusPlus
 from pytorch_grad_cam.utils.image import show_cam_on_image
-
-# Modular imports (Kendi proje yapınıza göre buraların çalıştığından emin olun)
 from src.model import RetiTransNet
 from src.dataset import RetinopathyDataset
 from src.utils import seed_everything
@@ -25,7 +23,6 @@ from src.utils import seed_everything
 # --- CONFIGURATION ---
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-# Model ağırlık yolu
 if os.path.exists("weights/retitransnet_best.pth"):
     WEIGHTS_PATH = "weights/retitransnet_best.pth"
 else:
@@ -34,7 +31,6 @@ else:
 RESULTS_DIR = "results"
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
-# Grafik Ayarları (Q1 Dergi Standartları)
 plt.rcParams.update({
     'font.family': 'serif', 
     'font.size': 14, 
@@ -137,20 +133,12 @@ def plot_roc_curves(y_true, y_probs, title, filename):
     print(f"🖼️ Saved ROC Curve: {filename}")
 
 def generate_gradcam(model, loader, dataset_name, filename):
-    """
-    Her sınıf için doğru tahmin edilen örneklerden Grad-CAM++ oluşturur.
-    """
     print(f"🔍 Generating Grad-CAM for {dataset_name}...")
-    
-    # HEDEF KATMAN SEÇİMİ (Modelinize göre burayı kontrol edin)
-    # Eğer RetiTransNet içinde 'cnn' isimli bir timm modeli varsa ve EfficientNet ise:
-    # Genelde 'conv_head' veya son bloktur. Model yapınıza göre hata alırsanız burayı değiştirin.
+ 
     try:
         target_layers = [model.cnn.conv_head]
     except AttributeError:
-        # Alternatif: Model yapısı farklıysa son katmanı otomatik bulmayı deneyelim (örnek)
-        # target_layers = [list(model.children())[-1]] 
-        print("⚠️ Hata: model.cnn.conv_head bulunamadı. Lütfen hedef katmanı model yapınıza göre düzeltin.")
+        print("⚠️Error")
         return
 
     cam = GradCAMPlusPlus(model=model, target_layers=target_layers)
@@ -159,7 +147,6 @@ def generate_gradcam(model, loader, dataset_name, filename):
     model.eval()
     iterator = iter(loader)
     
-    # Sınırlı sayıda batch dene
     max_batches = 60
     for _ in range(max_batches):
         try:
@@ -174,17 +161,14 @@ def generate_gradcam(model, loader, dataset_name, filename):
             
         for i in range(len(labels_np)):
             lbl = labels_np[i]
-            # Sadece DOĞRU tahmin edilenleri ve henüz bulunmamış sınıfları al
             if lbl == preds[i] and lbl not in found_classes:
                 found_classes[lbl] = inputs[i]
-            if len(found_classes) == 5: break # 5 sınıf da bulunduysa çık
+            if len(found_classes) == 5: break
         if len(found_classes) == 5: break
     
     if not found_classes:
-        print(f"⚠️ Warning: Grad-CAM için örnekler bulunamadı ({dataset_name}).")
+        print(f"⚠️ Warning ({dataset_name}).")
         return
-
-    # Görselleştirme
     sorted_keys = sorted(found_classes.keys())
     fig, axes = plt.subplots(len(sorted_keys), 3, figsize=(10, 3 * len(sorted_keys)))
     if len(sorted_keys) == 1: axes = np.expand_dims(axes, 0)
@@ -194,12 +178,7 @@ def generate_gradcam(model, loader, dataset_name, filename):
     for idx, lbl in enumerate(sorted_keys):
         img_tensor = found_classes[lbl]
         input_tensor = img_tensor.unsqueeze(0)
-        
-        # Heatmap Üret
-        # GradCAM için target belirtilmezse en yüksek skorlu sınıfı alır (ki zaten doğru tahmin edilenleri seçtik)
         gray_cam = cam(input_tensor=input_tensor, targets=None)[0, :]
-        
-        # Resmi Denormalize Et (Görüntülemek için)
         rgb_img = img_tensor.permute(1, 2, 0).cpu().numpy()
         mean = np.array([0.485, 0.456, 0.406])
         std = np.array([0.229, 0.224, 0.225])
@@ -294,7 +273,7 @@ def main():
         # Visualizations
         plot_confusion_matrix(y_true, y_pred_opt, "APTOS Confusion Matrix", "CM_APTOS.png")
         plot_roc_curves(y_true, y_probs, "APTOS ROC Curves", "ROC_APTOS.png")
-        generate_gradcam(model, loader, "APTOS", "GradCAM_APTOS.png") # GradCAM Eklendi
+        generate_gradcam(model, loader, "APTOS", "GradCAM_APTOS.png")
 
     # ---------------------------------------------------------
     # 3. EXTERNAL VALIDATION (IDRiD)
@@ -323,7 +302,7 @@ def main():
         # Visualizations
         plot_confusion_matrix(y_true_e, y_pred_e, "IDRiD Confusion Matrix", "CM_IDRiD.png")
         plot_roc_curves(y_true_e, y_probs_e, "IDRiD ROC Curves", "ROC_IDRiD.png")
-        generate_gradcam(model, loader_ext, "IDRiD", "GradCAM_IDRiD.png") # GradCAM Eklendi
+        generate_gradcam(model, loader_ext, "IDRiD", "GradCAM_IDRiD.png")
 
     print(f"\n✅ Evaluation Complete. Check '{RESULTS_DIR}' folder.")
 
