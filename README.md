@@ -152,13 +152,17 @@ The authors disclaim any responsibility for misuse of this software in medical o
 ---
 
 ## 📜 Citation
-
+If you use this work, please cite:
 ```bibtex
 @article{RetiTransNet2026,
   title={Reti-TransNet: An Adaptive Gated Hybrid Framework for Diabetic Retinopathy Grading},
-  author={İsa Ataş},
-  journal={Engineering Science and Technology, an International Journal (JESTECH)}, 
-  year={2026}
+  author={Ataş, İsa},
+  journal={Engineering Science and Technology, an International Journal},
+  volume={81},
+  year={2026},
+  pages={102469},
+  issn={2215-0986},
+  doi={10.1016/j.jestch.2026.102469}
 }
 ```
 
