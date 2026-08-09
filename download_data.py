@@ -6,7 +6,6 @@ import shutil
 def download_datasets():
     print("🚀 Downloading Datasets for Reti-TransNet...")
     
-    # Klasörleri Oluştur
     os.makedirs('dataset', exist_ok=True)
     os.makedirs('idrid_dataset', exist_ok=True)
 
